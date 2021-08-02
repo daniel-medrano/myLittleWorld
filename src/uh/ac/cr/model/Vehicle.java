@@ -11,6 +11,7 @@ public class Vehicle {
         this.priceVehicle = priceVehicle;
     }
 
+
     public int getNumberOfTires() {
         return numberOfTires;
     }
