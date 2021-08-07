@@ -1,11 +1,11 @@
 package uh.ac.cr.model;
 
 public class Blacksmith extends Person {
-    private int PayHouseBuilt;
+
     private int payMaterials;
 
-    public Blacksmith(int id, String name, String lastName) {
-        super(id, name, lastName);
+    public Blacksmith(int id, String name, String lastName, double salary) {
+        super(id, name, lastName, salary);
     }
     @Override
     public void requestMoney(){
