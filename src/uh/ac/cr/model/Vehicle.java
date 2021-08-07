@@ -1,9 +1,15 @@
 package uh.ac.cr.model;
 
-public class Vehicle {
-    private int numberOfTires;
-    private String nameVehicle;
-    private int priceVehicle;
+public abstract class Vehicle {
+    protected int numberOfTires;
+    protected String brandVehicle;
+    protected double priceVehicle;
+
+    public Vehicle() {}
+
+    public Vehicle(String brandVehicle) {
+        this.brandVehicle = brandVehicle;
+    }
 
     public Vehicle(int numberOfTires, String nameVehicle, int priceVehicle) {
         this.numberOfTires = numberOfTires;
@@ -35,4 +41,8 @@ public class Vehicle {
     public void setPriceVehicle(int priceVehicle) {
         this.priceVehicle = priceVehicle;
     }
+
+    
+
+
 }

@@ -1,17 +1,24 @@
 package uh.ac.cr.model;
 
-public class Chef extends Person{
-    private int payForMenu;
+public class Chef extends Person {
 
-    public Chef(int id, String name, String lastName) {
-        super(id, name, lastName);
+    public Chef(int id, String name, String lastName, double salary) {
+        super(id, name, lastName, salary);
     }
 
-    public int getPayForMenu() {
-        return payForMenu;
+    @Override
+    public void requestMoney(){
+    }
+    @Override
+    public void lendMoney(){}
+    @Override
+    public void depositMoney(){
+    }
+    @Override
+    public void manageMoney(){}
+    @Override
+    public void withdrawMoney(){
     }
 
-    public void setPayForMenu(int payForMenu) {
-        this.payForMenu = payForMenu;
-    }
+
 }

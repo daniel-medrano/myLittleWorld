@@ -1,14 +1,15 @@
 package uh.ac.cr.model;
 
-public class Person {
+public abstract class Person implements MoneyLender{
     private int id;
     private String name;
     private String lastName;
 
-    public Person(int id, String name, String lastName) {
+    public Person(int id, String name, String lastName, double salary) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
+        this.salary = salary;
     }
 
     public int getId() {

@@ -1,17 +1,33 @@
 package uh.ac.cr.model;
 
 public class Carpenter extends Person {
-    private int PayHouseBuilt;
 
-    public Carpenter (int id, String name, String lastName) {
-        super(id, name, lastName);
+    public Carpenter (int id, String name, String lastName, double salary) {
+        super(id, name, lastName,salary);
     }
 
-    public int getPayHouseBuilt() {
-        return PayHouseBuilt;
+    @Override
+    public void requestMoney() {
+
     }
 
-    public void setPayHouseBuilt(int payHouseBuilt) {
-        PayHouseBuilt = payHouseBuilt;
+    @Override
+    public void lendMoney() {
+
+    }
+
+    @Override
+    public void depositMoney() {
+
+    }
+
+    @Override
+    public void manageMoney() {
+
+    }
+
+    @Override
+    public void withdrawMoney() {
+
     }
 }

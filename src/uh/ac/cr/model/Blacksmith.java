@@ -7,14 +7,20 @@ public class Blacksmith extends Person {
     public Blacksmith(int id, String name, String lastName) {
         super(id, name, lastName);
     }
-
-    public int getPayHouseBuilt() {
-        return PayHouseBuilt;
+    @Override
+    public void requestMoney(){
+    }
+    @Override
+    public void lendMoney(){}
+    @Override
+    public void depositMoney(){
+    }
+    @Override
+    public void manageMoney(){}
+    @Override
+    public void withdrawMoney(){
     }
 
-    public void setPayHouseBuilt(int payHouseBuilt) {
-        PayHouseBuilt = payHouseBuilt;
-    }
 
     public int getPayMaterials() {
         return payMaterials;
@@ -23,4 +29,6 @@ public class Blacksmith extends Person {
     public void setPayMaterials(int payMaterials) {
         this.payMaterials = payMaterials;
     }
+
+
 }
