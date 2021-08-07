@@ -29,8 +29,8 @@ public  class Doctor extends  Person{
         return specialization;
     }
 
-    public void setSpecialty(String specialty) {
-        this.specialty = specialty;
+    public void setSpecialty(String specialization) {
+        this.specialization = specialization;
     }
 
 

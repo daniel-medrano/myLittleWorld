@@ -11,12 +11,9 @@ public abstract class Vehicle {
         this.brandVehicle = brandVehicle;
     }
 
-    public Vehicle(int numberOfTires, String nameVehicle, int priceVehicle) {
-        this.numberOfTires = numberOfTires;
-        this.nameVehicle = nameVehicle;
-        this.priceVehicle = priceVehicle;
-    }
 
+
+    public abstract void drive();
 
     public int getNumberOfTires() {
         return numberOfTires;
@@ -26,15 +23,15 @@ public abstract class Vehicle {
         this.numberOfTires = numberOfTires;
     }
 
-    public String getNameVehicle() {
-        return nameVehicle;
+    public String getBrandVehicle() {
+        return brandVehicle;
     }
 
-    public void setNameVehicle(String nameVehicle) {
-        this.nameVehicle = nameVehicle;
+    public void setBrandVehicle(String brandVehicle) {
+        this.brandVehicle = brandVehicle;
     }
 
-    public int getPriceVehicle() {
+    public double getPriceVehicle() {
         return priceVehicle;
     }
 

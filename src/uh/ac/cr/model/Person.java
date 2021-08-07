@@ -4,6 +4,7 @@ public abstract class Person implements MoneyLender{
     private int id;
     private String name;
     private String lastName;
+    private double salary;
 
     public Person(int id, String name, String lastName, double salary) {
         this.id = id;
@@ -11,6 +12,16 @@ public abstract class Person implements MoneyLender{
         this.lastName = lastName;
         this.salary = salary;
     }
+
+    public abstract void requestMoney();
+
+    public abstract void lendMoney();
+
+    public abstract void depositMoney();
+
+    public abstract void manageMoney();
+
+    public abstract void withdrawMoney();
 
     public int getId() {
         return id;
@@ -34,5 +45,13 @@ public abstract class Person implements MoneyLender{
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
     }
 }
