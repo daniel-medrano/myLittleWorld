@@ -30,8 +30,10 @@ public class PersonManager {
     }
 
     public void createBuilder(int id, String name, String lastName, double salary) {
-        personArrayList.add(new Builder(id, name, lastName, salary));
-
+        if (woods.areThereTreesAvailable(personArrayList.size()) && amountBuilders < amountDoctors * 2 && amountBuilders < amountChefs * 2) {
+            personArrayList.add(new Builder(id, name, lastName, salary));
+            amountBuilders++;
+        }
     }
 
     public void createBlacksmith(int id, String name, String lastName, double salary) {
@@ -42,7 +44,10 @@ public class PersonManager {
     }
 
     public void createCarpenter(int id, String name, String lastName, double salary) {
-        personArrayList.add(new Carpenter(id, name, lastName, salary));
+        if (woods.areThereTreesAvailable(personArrayList.size()) && woods.areThereTreesAvailable(personArrayList.size()) && amountCarpenters < amountDoctors) {
+            personArrayList.add(new Carpenter(id, name, lastName, salary));
+            amountCarpenters++;
+        }
     }
 
     //Methods to delete the different people according to their roles.

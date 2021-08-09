@@ -11,7 +11,23 @@ public abstract class Person implements MoneyLender{
         this.name = name;
         this.lastName = lastName;
         this.salary = salary;
+        this.sick = false;
+        this.dead = false;
     }
+    //requisitos interface
+
+    /**
+     *
+     * Se asumiria que requestMoney crea un prestamo en si.
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * **/
 
     public abstract void requestMoney();
 

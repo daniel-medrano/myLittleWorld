@@ -4,6 +4,8 @@ public class Chef extends Person {
 
     public Chef(int id, String name, String lastName, double salary) {
         super(id, name, lastName, salary);
+
+        this.recipes = recipes;
     }
 
     @Override
