@@ -18,8 +18,8 @@ public class Main {
             System.out.println("\n---------------------------------------------------------------------\n");
             command = scanner.nextLine();
 
-            String[] commandList = command.split(" ");
 
+            String[] commandList = command.split(" ");
             if (commandList.length == 4 && commandList[0].equals("start") && commandList[1].equals("new") && commandList[2].equals("world")) {
                 menu.startNewWorld(commandList[3]);
             } else {
@@ -75,6 +75,7 @@ public class Main {
                         System.err.println("ERROR: Not a valid command. In case you need help, type \"help\".");
                         break;
                 }
+                menu.verify();
             }
         }
     }

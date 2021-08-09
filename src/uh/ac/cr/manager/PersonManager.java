@@ -8,9 +8,21 @@ import java.util.Iterator;
 
 public class PersonManager {
     ArrayList<Person> personArrayList;
+    private int amountDoctors;
+    private int amountChefs;
+    private int amountBuilders;
+    private int amountBlacksmiths;
+    private int amountCarpenters;
+    private Woods woods;
 
     public PersonManager() {
         personArrayList = new ArrayList<>();
+        amountDoctors = 0;
+        amountChefs = 0;
+        amountBuilders = 0;
+        amountBlacksmiths = 0;
+        amountCarpenters = 0;
+        woods = new Woods();
     }
 
     //Methods to create the different people according to their roles.
@@ -50,6 +62,8 @@ public class PersonManager {
         }
     }
 
+
+
     //Methods to delete the different people according to their roles.
     public void deleteDoctor(Doctor doctor) {
         if (isPersonInList(doctor)) {
@@ -86,5 +100,7 @@ public class PersonManager {
         return personArrayList.contains(person);
     }
 
-
+    public ArrayList<Person> getPersonArrayList() {
+        return personArrayList;
+    }
 }

@@ -1,24 +1,44 @@
 package uh.ac.cr;
 
+import uh.ac.cr.manager.PersonManager;
+import uh.ac.cr.model.Person;
+import uh.ac.cr.util.OperationController;
+
+import java.util.ArrayList;
+
 public class Menu {
+    PersonManager people;
+
+
+    OperationController operationController;
+
+    public Menu() {
+        operationController = new OperationController();
+        people = new PersonManager();
+    }
+    public void verify() {
+        operationController.check(people.getPersonArrayList());
+    }
 
     public void startNewWorld(String nameWorld) {
         System.out.println("Works!");
+        operationController.increase();
     }
 
     public void help() {
         System.out.println("");
     }
 
-    public void createDoctor(){
-
+    public void createDoctor() {
+        operationController.increase();
     }
 
     public void createChef() {
         operationController.increase();
     }
-    public void createBuilder(){
 
+    public void createBuilder() {
+        operationController.increase();
     }
 
     public void createBlacksmith() {

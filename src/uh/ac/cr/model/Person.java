@@ -1,10 +1,12 @@
 package uh.ac.cr.model;
 
 public abstract class Person implements MoneyLender{
-    private int id;
-    private String name;
-    private String lastName;
-    private double salary;
+    protected int id;
+    protected String name;
+    protected String lastName;
+    protected double salary;
+    protected boolean sick;
+    protected boolean dead;
 
     public Person(int id, String name, String lastName, double salary) {
         this.id = id;
@@ -36,6 +38,10 @@ public abstract class Person implements MoneyLender{
     public abstract void depositMoney();
 
     public abstract void withdrawMoney();
+
+    public void setSick() {
+        this.sick = true;
+    }
 
     public int getId() {
         return id;
