@@ -22,11 +22,6 @@ public class Carpenter extends Person {
     }
 
     @Override
-    public void manageMoney() {
-
-    }
-
-    @Override
     public void withdrawMoney() {
 
     }

@@ -19,8 +19,6 @@ public abstract class Person implements MoneyLender{
 
     public abstract void depositMoney();
 
-    public abstract void manageMoney();
-
     public abstract void withdrawMoney();
 
     public int getId() {

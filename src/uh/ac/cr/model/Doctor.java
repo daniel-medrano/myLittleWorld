@@ -18,8 +18,7 @@ public  class Doctor extends  Person{
     @Override
     public void depositMoney(){
     }
-    @Override
-    public void manageMoney(){}
+
     @Override
     public void withdrawMoney(){
     }

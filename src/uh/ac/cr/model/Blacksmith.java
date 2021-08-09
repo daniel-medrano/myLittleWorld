@@ -15,8 +15,7 @@ public class Blacksmith extends Person {
     @Override
     public void depositMoney(){
     }
-    @Override
-    public void manageMoney(){}
+
     @Override
     public void withdrawMoney(){
     }

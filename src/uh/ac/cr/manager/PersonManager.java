@@ -15,11 +15,18 @@ public class PersonManager {
 
     //Methods to create the different people according to their roles.
     public void createDoctor(int id, String name, String lastName, double salary, String specialization) {
-        personArrayList.add(new Doctor(id, name, lastName, salary, specialization));
+        if (woods.areThereTreesAvailable(personArrayList.size())) {
+            personArrayList.add(new Doctor(id, name, lastName, salary, specialization));
+            amountDoctors++;
+        }
     }
 
-    public void createChef(int id, String name, String lastName, double salary) {
-        personArrayList.add(new Chef(id, name, lastName, salary));
+    public void createChef(int id, String name, String lastName, double salary,ArrayList<String> recipes) {
+        //validar recetas
+        if (woods.areThereTreesAvailable(personArrayList.size())) {
+            personArrayList.add(new Chef(id, name, lastName, salary, recipes));
+            amountChefs++;
+        }
     }
 
     public void createBuilder(int id, String name, String lastName, double salary) {
@@ -28,7 +35,10 @@ public class PersonManager {
     }
 
     public void createBlacksmith(int id, String name, String lastName, double salary) {
-        personArrayList.add(new Blacksmith(id, name, lastName, salary));
+        if (woods.areThereTreesAvailable(personArrayList.size()) && amountBlacksmiths < amountDoctors * 2) {
+            personArrayList.add(new Blacksmith(id, name, lastName, salary));
+            amountBlacksmiths++;
+        }
     }
 
     public void createCarpenter(int id, String name, String lastName, double salary) {

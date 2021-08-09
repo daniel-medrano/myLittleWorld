@@ -2,53 +2,68 @@ package uh.ac.cr;
 
 public class Menu {
 
-    public void startNewWorld(String nameWorld){
+    public void startNewWorld(String nameWorld) {
         System.out.println("Works!");
     }
 
-    public void help (){
+    public void help() {
         System.out.println("");
     }
 
     public void createDoctor(){
 
     }
-    public void createChef(){
 
+    public void createChef() {
+        operationController.increase();
     }
     public void createBuilder(){
 
     }
-    public void createBlacksmith(){
+
+    public void createBlacksmith() {
+        operationController.increase();
+    }
+
+    public void createCarpenter() {
+        operationController.increase();
+    }
+
+    public void plantTree() {
+        operationController.increase();
 
     }
-    public void createCarpenter (){
+
+    public void buildBicycle() {
+        operationController.increase();
 
     }
-    public void plantTree (){
+
+    public void buyBicycle() {
+        operationController.increase();
 
     }
-    public void buildBicycle (){
 
-    }
-    public  void buyBicycle (){
-
-    }
     public void driveBicycle() {
-
+        operationController.increase();
     }
-    public void buildCar () {
 
+    public void buildCar() {
+        operationController.increase();
     }
-    public void  buyCar () {
 
+    public void buyCar() {
+        operationController.increase();
     }
-    public void driveCar (){
 
+    public void driveCar() {
+        operationController.increase();
     }
-    public void requestLoan (){
 
+    public void requestLoan() {
+        operationController.increase();
     }
+
     public void printStatistics() {
 
     }

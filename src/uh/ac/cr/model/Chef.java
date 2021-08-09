@@ -1,5 +1,5 @@
 package uh.ac.cr.model;
-
+import  java.util.ArrayList;
 public class Chef extends Person {
 
     public Chef(int id, String name, String lastName, double salary) {
@@ -14,8 +14,7 @@ public class Chef extends Person {
     @Override
     public void depositMoney(){
     }
-    @Override
-    public void manageMoney(){}
+
     @Override
     public void withdrawMoney(){
     }

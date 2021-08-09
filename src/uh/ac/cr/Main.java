@@ -13,6 +13,7 @@ public class Main {
         boolean exit = true;
 
         System.out.println("\n           Students: Andrey Vargas - Génesis Delgado - Daniel Medrano\n\n                             My Little World"  );
+
         while(exit) {
             System.out.println("\n---------------------------------------------------------------------\n");
             command = scanner.nextLine();
