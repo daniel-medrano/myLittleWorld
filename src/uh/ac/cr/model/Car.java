@@ -7,5 +7,7 @@ public class Car extends Vehicle {
         this.numberOfTires = 4;
         this.priceVehicle = priceVehicle;
     }
-    public void drive (){}
+    public void drive (){
+        System.out.println("The car is being driven...");
+    }
 }

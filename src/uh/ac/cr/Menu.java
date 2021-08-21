@@ -10,11 +10,12 @@ public class Menu {
     OperationController operationController;
 
     public Menu() {
-        operationController = new OperationController();
-        people = new PersonManager();
+        people = new World();
+        operationController = new OperationController(people);
+
     }
     public void verify() {
-        operationController.check(people.getPersonArrayList());
+        operationController.check(people.getPersonArrayList(), people.getWoods());
     }
 
     public void startNewWorld(String nameWorld) {

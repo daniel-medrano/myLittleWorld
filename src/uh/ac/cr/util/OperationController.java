@@ -1,7 +1,9 @@
 package uh.ac.cr.util;
 
 
+import uh.ac.cr.manager.World;
 import uh.ac.cr.model.Person;
+import uh.ac.cr.model.Woods;
 
 import java.util.ArrayList;
 
@@ -11,7 +13,8 @@ public class OperationController {
     private int numOfCreations;
     private World people;
 
-    public OperationController() {
+    public OperationController(World people) {
+        this.people = people;
         numOfOperations = 0;
         numOfCreations = 0;
     }
@@ -58,5 +61,4 @@ public class OperationController {
 
         }
     }
-
 }

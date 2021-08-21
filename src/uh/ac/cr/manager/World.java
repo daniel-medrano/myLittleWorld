@@ -9,6 +9,7 @@ public class World {
     ArrayList<House> houseArrayList;
     ArrayList<Vehicle> vehicleArrayList;
     ArrayList<Person> personArrayList;
+    //Counters are initialized to control the amount of objects.
     private int amountDoctors;
     private int amountChefs;
     private int amountBuilders;
@@ -36,6 +37,7 @@ public class World {
         woods = new Woods();
     }
 
+    //PEOPLE
     //Methods to create the different people according to their roles.
     public void createDoctor(int id, String name, String lastName, double income, String specialization) {
         if (woods.areThereTreesAvailable(personArrayList.size())) {
@@ -72,7 +74,68 @@ public class World {
             amountCarpenters++;
         }
     }
+    //BELONGINGS
+    //Methods to create the vehicles and the house.
+    //TODO - Validate jf the person has the money in menu.
 
+    public void createHouse(Person buyer, Person[] houseCreators) {
+        if (amountCarpenters >= 2 && amountBuilders >= 3 && amountBlacksmiths >= 1) {
+            buyer.withdrawMoney(27);
+            //Pays the amount of money to each person
+            for (Person person : houseCreators) {
+                if (person instanceof Carpenter) {
+                    person.depositMoney(4);
+                } else if (person instanceof Builder) {
+                    person.depositMoney(2);
+                } else if (person instanceof Blacksmith) {
+                    person.depositMoney(3);
+                }
+            }
+            houseArrayList.add(new House(buyer));
+            amountHouses++;
+        }
+    }
+
+    public void createBicycle(String brand, double price) {
+        if (amountBlacksmiths >= 1) {
+            vehicleArrayList.add(new Bicycle(brand, price));
+            amountVehicle++;
+
+        }
+
+    }
+
+    public void createCar(String brand, double price) {
+        vehicleArrayList.add(new Car(brand, price));
+        amountVehicle++;
+    }
+    //Methods to buy the vehicles
+    //TODO
+
+    public void buyBicycle(Person owner, Bicycle bicycle) {
+        //TODO - Revisar si es mejor verificar si tiene el dinero en el mismo metodo o en la clase menu.
+        if (owner.hasMoney(3)) {
+            owner.withdrawMoney(3);
+            bicycle.setOwner(owner);
+        }
+    }
+
+    public void buyCar(Person owner, Car car) {
+        owner.withdrawMoney(25);
+        car.setOwner(owner);
+    }
+
+    //Methods to drive the vehicles
+    //TODO
+
+    public void driveBicycle(Bicycle bicycle) {
+        bicycle.drive();
+    }
+
+    public void driveCar(Car car) {
+        car.drive();
+        woods.decreaseTrees(3);
+    }
 
 
     //Methods to delete the different people according to their roles.

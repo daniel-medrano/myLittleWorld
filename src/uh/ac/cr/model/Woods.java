@@ -25,6 +25,10 @@ public class Woods {
     public boolean areThereTreesAvailable(int amountPeople) {
         return trees % amountPeople >= 3;
     }
+
+    public boolean areThereEnoughTreesPerPerson(int amountPeople) {
+        return trees % amountPeople >= 0;
+    }
     //Method to return the amount of trees.
     public int getTrees() {
         return trees;

@@ -6,7 +6,9 @@ public class Bicycle extends Vehicle{
         super(brandBicycle);
         this.numberOfTires = 2;
         this.priceVehicle = priceVehicle;
-
     }
-    public void drive (){}
+
+    public void drive () {
+        System.out.println("The bicycle is being driven...");
+    }
 }

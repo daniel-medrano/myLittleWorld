@@ -1,6 +1,7 @@
 package uh.ac.cr.model;
 
 public abstract class Vehicle {
+    protected Person owner;
     protected int numberOfTires;
     protected String brandVehicle;
     protected double priceVehicle;
@@ -14,6 +15,10 @@ public abstract class Vehicle {
 
 
     public abstract void drive();
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
+    }
 
     public int getNumberOfTires() {
         return numberOfTires;

@@ -8,7 +8,7 @@ public abstract class Person implements MoneyLender{
     protected boolean sick;
     protected boolean dead;
 
-    public Person(int id, String name, String lastName, double salary) {
+    public Person(int id, String name, String lastName, double income) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -35,9 +35,20 @@ public abstract class Person implements MoneyLender{
 
     public abstract void lendMoney();
 
-    public abstract void depositMoney();
-
-    public abstract void withdrawMoney();
+    public boolean depositMoney(double moneyToDeposit) {
+        this.income = income + moneyToDeposit;
+        return true;
+    }
+    //TODO - Revisar si el limite para quitar dinero es 0...
+    public boolean withdrawMoney(double moneyToWithdraw) {
+        //The amount of money that is gonna be taken away cannot be bigger than the actual income.
+        if (income - moneyToWithdraw >= 0) {
+            this.income = income - moneyToWithdraw;
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public boolean setSick() {
         //If the number is 2 and the person is not sick then that means that the person will get sick.
@@ -58,6 +69,10 @@ public abstract class Person implements MoneyLender{
             this.sick = false;
             return false;
         }
+    }
+
+    public boolean hasMoney(double moneyToCompare) {
+        return moneyToCompare <= income;
     }
 
     public int getId() {
@@ -90,5 +105,21 @@ public abstract class Person implements MoneyLender{
 
     public void setSalary(double salary) {
         this.income = salary;
+    }
+
+    public boolean isSick() {
+        return sick;
+    }
+
+    public void setSick(boolean sick) {
+        this.sick = sick;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
 }
