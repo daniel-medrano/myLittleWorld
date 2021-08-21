@@ -4,9 +4,11 @@ public class Blacksmith extends Person {
 
     private int payMaterials;
 
-    public Blacksmith(int id, String name, String lastName, double salary) {
-        super(id, name, lastName, salary);
+    public Blacksmith(int id, String name, String lastName) {
+        //The blacksmith is created with 3 dollar in favor.
+        super(id, name, lastName, 3);
     }
+
     @Override
     public void requestMoney(){
     }

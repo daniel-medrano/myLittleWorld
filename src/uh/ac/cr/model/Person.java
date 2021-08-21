@@ -4,7 +4,7 @@ public abstract class Person implements MoneyLender{
     protected int id;
     protected String name;
     protected String lastName;
-    protected double salary;
+    protected double income;
     protected boolean sick;
     protected boolean dead;
 
@@ -12,7 +12,7 @@ public abstract class Person implements MoneyLender{
         this.id = id;
         this.name = name;
         this.lastName = lastName;
-        this.salary = salary;
+        this.income = income;
         this.sick = false;
         this.dead = false;
     }
@@ -85,10 +85,10 @@ public abstract class Person implements MoneyLender{
     }
 
     public double getSalary() {
-        return salary;
+        return income;
     }
 
     public void setSalary(double salary) {
-        this.salary = salary;
+        this.income = salary;
     }
 }

@@ -8,9 +8,12 @@ import java.util.ArrayList;
 public class OperationController {
 
     private int numOfOperations;
+    private int numOfCreations;
+    private World people;
 
     public OperationController() {
         numOfOperations = 0;
+        numOfCreations = 0;
     }
 
     public void increaseNumOfCreations() {

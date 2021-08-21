@@ -2,8 +2,8 @@ package uh.ac.cr.model;
 
 public class Carpenter extends Person {
 
-    public Carpenter (int id, String name, String lastName, double salary) {
-        super(id, name, lastName,salary);
+    public Carpenter (int id, String name, String lastName, double income) {
+        super(id, name, lastName,income);
     }
 
     @Override
