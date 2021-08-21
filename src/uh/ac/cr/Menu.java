@@ -1,13 +1,10 @@
 package uh.ac.cr;
 
-import uh.ac.cr.manager.PersonManager;
-import uh.ac.cr.model.Person;
+import uh.ac.cr.manager.World;
 import uh.ac.cr.util.OperationController;
 
-import java.util.ArrayList;
-
 public class Menu {
-    PersonManager people;
+    World people;
 
 
     OperationController operationController;
@@ -22,7 +19,7 @@ public class Menu {
 
     public void startNewWorld(String nameWorld) {
         System.out.println("Works!");
-        operationController.increase();
+        operationController.increaseNumOfOperations();
     }
 
     public void help() {
@@ -30,58 +27,61 @@ public class Menu {
     }
 
     public void createDoctor() {
-        operationController.increase();
+        operationController.increaseNumOfOperations();
     }
 
     public void createChef() {
-        operationController.increase();
+        operationController.increaseNumOfOperations();
     }
 
     public void createBuilder() {
-        operationController.increase();
+        operationController.increaseNumOfOperations();
     }
 
     public void createBlacksmith() {
-        operationController.increase();
+        operationController.increaseNumOfOperations();
     }
 
     public void createCarpenter() {
-        operationController.increase();
+        operationController.increaseNumOfOperations();
     }
+     public void buildHouse (){
+
+     }
 
     public void plantTree() {
-        operationController.increase();
+        operationController.increaseNumOfOperations();
 
     }
 
     public void buildBicycle() {
-        operationController.increase();
+        operationController.increaseNumOfOperations();
 
     }
 
     public void buyBicycle() {
-        operationController.increase();
+        operationController.increaseNumOfOperations();
 
     }
 
     public void driveBicycle() {
-        operationController.increase();
+        operationController.increaseNumOfOperations();
     }
 
     public void buildCar() {
-        operationController.increase();
+        operationController.increaseNumOfOperations();
     }
 
     public void buyCar() {
-        operationController.increase();
+        operationController.increaseNumOfOperations();
     }
 
     public void driveCar() {
-        operationController.increase();
+        operationController.increaseNumOfOperations();
     }
 
     public void requestLoan() {
-        operationController.increase();
+        operationController.increaseNumOfOperations();
     }
 
     public void printStatistics() {

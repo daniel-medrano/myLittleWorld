@@ -16,12 +16,11 @@ public class Carpenter extends Person {
 
     }
 
-    @Override
+
     public void depositMoney() {
 
     }
 
-    @Override
     public void withdrawMoney() {
 
     }

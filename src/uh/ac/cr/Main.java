@@ -44,6 +44,9 @@ public class Main {
                     case "create carpenter":
                         menu.createCarpenter();
                         break;
+                    case "build house":
+                        menu.buildHouse();
+                        break;
                     case "plant tree ":
                         menu.plantTree();
                         break;

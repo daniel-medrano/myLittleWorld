@@ -15,11 +15,11 @@ public  class Doctor extends  Person{
     }
     @Override
     public void lendMoney(){}
-    @Override
+
     public void depositMoney(){
     }
 
-    @Override
+
     public void withdrawMoney(){
     }
 

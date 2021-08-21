@@ -15,6 +15,12 @@ public class Woods {
     public void decreaseTrees() {
         this.trees--;
     }
+    public void decreaseTrees(int trees){
+        if (!(this.trees - trees < 0)) {
+            this.trees = this.trees - trees;
+        }
+    }
+
     //Method that checks if there are trees available to create a new person, there must be at least 3 trees available.
     public boolean areThereTreesAvailable(int amountPeople) {
         return trees % amountPeople >= 3;

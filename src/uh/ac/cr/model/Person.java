@@ -39,8 +39,25 @@ public abstract class Person implements MoneyLender{
 
     public abstract void withdrawMoney();
 
-    public void setSick() {
-        this.sick = true;
+    public boolean setSick() {
+        //If the number is 2 and the person is not sick then that means that the person will get sick.
+        if (!isSick() && (int)(Math.random()*2+1) == 2) {
+            this.sick = true;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean die() {
+        //When the num is 2 that means that the person will die, that if the person is sick and not dead.
+        if (isSick() && !isDead() && (int)(Math.random()*2+1) == 2) {
+            this.dead = true;
+            return true;
+        } else {
+            this.sick = false;
+            return false;
+        }
     }
 
     public int getId() {

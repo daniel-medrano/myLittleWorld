@@ -2,62 +2,73 @@ package uh.ac.cr.manager;
 
 import uh.ac.cr.model.*;
 
-import javax.print.Doc;
 import java.util.ArrayList;
-import java.util.Iterator;
 
-public class PersonManager {
+public class World {
+    //ArrayLists that contain all the objects, these lists take advantage of polymorphism. The personArrayList can contain doctors, blacksmiths, etc.
+    ArrayList<House> houseArrayList;
+    ArrayList<Vehicle> vehicleArrayList;
     ArrayList<Person> personArrayList;
     private int amountDoctors;
     private int amountChefs;
     private int amountBuilders;
     private int amountBlacksmiths;
     private int amountCarpenters;
+    private int amountHouses;
+    private int amountBicycle;
+    private int amountVehicle;
+    //Woods controls the amount of trees and everything that has something to do with it.
     private Woods woods;
 
-    public PersonManager() {
+
+    public World() {
+        houseArrayList = new ArrayList<>();
+        vehicleArrayList = new ArrayList<>();
         personArrayList = new ArrayList<>();
         amountDoctors = 0;
         amountChefs = 0;
         amountBuilders = 0;
         amountBlacksmiths = 0;
         amountCarpenters = 0;
+        amountHouses = 0;
+        amountBicycle =0;
+        amountVehicle = 0;
         woods = new Woods();
     }
 
     //Methods to create the different people according to their roles.
-    public void createDoctor(int id, String name, String lastName, double salary, String specialization) {
+    public void createDoctor(int id, String name, String lastName, double income, String specialization) {
         if (woods.areThereTreesAvailable(personArrayList.size())) {
-            personArrayList.add(new Doctor(id, name, lastName, salary, specialization));
+            personArrayList.add(new Doctor(id, name, lastName, income, specialization));
             amountDoctors++;
         }
     }
 
-    public void createChef(int id, String name, String lastName, double salary,ArrayList<String> recipes) {
-        //validar recetas
+    public void createChef(int id, String name, String lastName, double income, ArrayList<String> recipes) {
+        //TODO - validar recetas falta.
         if (woods.areThereTreesAvailable(personArrayList.size())) {
-            personArrayList.add(new Chef(id, name, lastName, salary, recipes));
+            personArrayList.add(new Chef(id, name, lastName, income, recipes));
             amountChefs++;
         }
     }
 
-    public void createBuilder(int id, String name, String lastName, double salary) {
+    public void createBuilder(int id, String name, String lastName, double income) {
         if (woods.areThereTreesAvailable(personArrayList.size()) && amountBuilders < amountDoctors * 2 && amountBuilders < amountChefs * 2) {
-            personArrayList.add(new Builder(id, name, lastName, salary));
+            personArrayList.add(new Builder(id, name, lastName, income));
             amountBuilders++;
         }
     }
 
-    public void createBlacksmith(int id, String name, String lastName, double salary) {
+    public void createBlacksmith(int id, String name, String lastName) {
         if (woods.areThereTreesAvailable(personArrayList.size()) && amountBlacksmiths < amountDoctors * 2) {
-            personArrayList.add(new Blacksmith(id, name, lastName, salary));
+            personArrayList.add(new Blacksmith(id, name, lastName));
             amountBlacksmiths++;
         }
     }
 
-    public void createCarpenter(int id, String name, String lastName, double salary) {
+    public void createCarpenter(int id, String name, String lastName, double income) {
         if (woods.areThereTreesAvailable(personArrayList.size()) && woods.areThereTreesAvailable(personArrayList.size()) && amountCarpenters < amountDoctors) {
-            personArrayList.add(new Carpenter(id, name, lastName, salary));
+            personArrayList.add(new Carpenter(id, name, lastName, income));
             amountCarpenters++;
         }
     }
@@ -95,6 +106,26 @@ public class PersonManager {
         }
     }
 
+
+    public void depositToDoctors(double moneyToDeposit) {
+        //TODO - Si la persona que se enfermo es un doctor tambien, hay que asegurarse de que no le deposite a él tambien
+        for (Person person : personArrayList) {
+            if (person instanceof Doctor) {
+                person.depositMoney(moneyToDeposit);
+            }
+        }
+    }
+
+    public void withdrawToDoctors(double moneyToWithdraw) {
+        //TODO - Si la persona que se murio es un doctor tambien, hay que asegurarse de que no le quite a él tambien, porque ya se murio
+        for (Person person : personArrayList) {
+            if (person instanceof Doctor) {
+                person.withdrawMoney(moneyToWithdraw);
+            }
+        }
+    }
+
+
     //Method to verify whether or not a person is in the personArrayList.
     public boolean isPersonInList(Person person) {
         return personArrayList.contains(person);
@@ -102,5 +133,9 @@ public class PersonManager {
 
     public ArrayList<Person> getPersonArrayList() {
         return personArrayList;
+    }
+
+    public Woods getWoods() {
+        return woods;
     }
 }

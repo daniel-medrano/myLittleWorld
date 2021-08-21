@@ -12,11 +12,10 @@ public class Blacksmith extends Person {
     }
     @Override
     public void lendMoney(){}
-    @Override
+
     public void depositMoney(){
     }
 
-    @Override
     public void withdrawMoney(){
     }
 
