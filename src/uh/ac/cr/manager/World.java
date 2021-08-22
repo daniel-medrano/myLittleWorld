@@ -49,7 +49,7 @@ public class World {
     public void createChef(int id, String name, String lastName, double income, ArrayList<String> recipes) {
         //TODO - validar recetas falta.
         if (woods.areThereTreesAvailable(personArrayList.size())) {
-            personArrayList.add(new Chef(id, name, lastName, income, recipes));
+            personArrayList.add(new Chef(id, name, lastName, recipes));
             amountChefs++;
         }
     }

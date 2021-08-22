@@ -10,12 +10,13 @@ public class Menu {
     OperationController operationController;
 
     public Menu() {
-        people = new World();
-        operationController = new OperationController(people);
+        world = new World();
+        operationController = new OperationController(world);
+        scanner = new Scanner(System.in);
 
     }
     public void verify() {
-        operationController.check(people.getPersonArrayList(), people.getWoods());
+        operationController.check(world.getPersonArrayList(), world.getWoods());
     }
 
     public void startNewWorld(String nameWorld) {
@@ -24,7 +25,24 @@ public class Menu {
     }
 
     public void help() {
-        System.out.println("");
+        System.out.println("The commands are: \n" +
+                " exit. \n" +
+                " create doctor. \n" +
+                " create chef. \n" +
+                " create builder. \n" +
+                " create blacksmith. \n" +
+                " create carpenter. \n" +
+                " build house. \n" +
+                " plant tree. \n" +
+                " build bicycle. \n" +
+                " buy bicycle.  \n" +
+                " drive bicycle. \n" +
+                " build car. \n" +
+                " buy car. \n" +
+                " drive car. \n" +
+                " request loan. \n"+
+                " print statistics. ");
+
     }
 
     public void createDoctor() {
@@ -32,6 +50,17 @@ public class Menu {
     }
 
     public void createChef() {
+        System.out.println("Insert the ID of the chef: ");
+        int chefID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Insert the name of the chef:");
+        String chefName = scanner.nextLine();
+        System.out.println("Insert the last name of the chef:");
+        String chefLastName = scanner.nextLine();
+
+        // TODO REVISAR
+        System.out.println("Insert the recipes of the chef:");
+        String chefRecipes = scanner.nextLine();
         operationController.increaseNumOfOperations();
     }
 

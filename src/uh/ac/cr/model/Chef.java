@@ -3,8 +3,8 @@ import  java.util.ArrayList;
 public class Chef extends Person {
     private ArrayList recipes;
 
-    public Chef(int id, String name, String lastName, double income, ArrayList<String> recipes) {
-        super(id, name, lastName, income);
+    public Chef(int id, String name, String lastName, ArrayList<String> recipes) {
+        super(id, name, lastName, 0);
 
         this.recipes = recipes;
     }

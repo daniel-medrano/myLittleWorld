@@ -13,8 +13,8 @@ public class OperationController {
     private int numOfCreations;
     private World people;
 
-    public OperationController(World people) {
-        this.people = people;
+    public OperationController(World world) {
+        this.world = world;
         numOfOperations = 0;
         numOfCreations = 0;
     }
@@ -43,12 +43,12 @@ public class OperationController {
                 gotSick = person.setSick();
 
                 if (gotSick) {
-                    people.depositToDoctors(5);
+                    world.depositToDoctors(5);
                 }
                 //If the person dies for the first time, money will be taken awa
                  died = person.die();
                 if (died) {
-                    people.withdrawToDoctors(3);
+                    world.withdrawToDoctors(3);
                 }
                 //If there are always at least 3 trees per person, the people will receive 5 dollars every 5 operations.
                 if (woods.areThereEnoughTreesPerPerson(personArrayList.size())) {
@@ -58,6 +58,10 @@ public class OperationController {
             }
         }
         if (numOfOperations % 10 == 0) {
+            woods.decreaseTrees(5);
+
+
+
 
         }
     }
