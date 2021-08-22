@@ -105,8 +105,8 @@ public class World {
 
     }
 
-    public void createCar(String brand, double price) {
-        vehicleArrayList.add(new Car(brand, price));
+    public void createCar( int ID ,String brand) {
+        vehicleArrayList.add(new Car(ID, brand));
         amountVehicle++;
     }
     //Methods to buy the vehicles

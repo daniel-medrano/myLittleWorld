@@ -65,6 +65,16 @@ public class Menu {
     }
 
     public void createBuilder() {
+        System.out.println("Insert the ID of the builder");
+        int builderID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Insert the name of the builder");
+        String builderName =scanner.nextLine();
+        System.out.println("Insert the last name of the builder");
+        String builderLastName = scanner.nextLine();
+
+        world.createBuilder(builderID, builderName, builderLastName);
+
         operationController.increaseNumOfOperations();
     }
 
@@ -73,6 +83,16 @@ public class Menu {
     }
 
     public void createCarpenter() {
+        System.out.println("Insert the ID of the carpeter");
+        int carpenterID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Insert the name of the carpenter");
+        String carpenterName = scanner.nextLine();
+        System.out.println("Insert the last name of the carpenter");
+        String carpenterLastname = scanner.nextLine();
+
+        world.createCarpenter(carpenterID, carpenterName, carpenterLastname);
+
         operationController.increaseNumOfOperations();
     }
      public void buildHouse (){
@@ -80,29 +100,66 @@ public class Menu {
      }
 
     public void plantTree() {
+        world.plantTree();
+
         operationController.increaseNumOfOperations();
 
     }
 
     public void buildBicycle() {
+        System.out.println("Insert the ID of the bicycle.");
+        int bicycleID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("What is the brand of the bicycle.");
+        String brandBicycle = scanner.nextLine();
+        world.createBicycle(bicycleID,brandBicycle);
         operationController.increaseNumOfOperations();
 
     }
 
     public void buyBicycle() {
+        Bicycle bicycle;
+        int bicycleID;
+        do {
+            System.out.println("Choose the bike you want to buy.");
+            System.out.println(world.getStringOfBicycles());
+            bicycleID = scanner.nextInt();
+            bicycle = world.getBicycleByID(bicycleID);
+        } while (bicycle == null);
+
+        Person owner;
+        int ownerID;
+        do {
+            System.out.println("Choose the owner of the bike you want to buy.");
+            System.out.println(world.getStringOfPeople());
+            ownerID = scanner.nextInt();
+            owner = world.getPersonByID(ownerID);
+        } while (owner == null);
+
+        world.buyBicycle(owner, bicycle);
         operationController.increaseNumOfOperations();
 
     }
 
     public void driveBicycle() {
         operationController.increaseNumOfOperations();
+
     }
 
     public void buildCar() {
+        System.out.println("Insert the ID of the car");
+        int ID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("What is the brand of the bicycle.");
+        String brandCar = scanner.nextLine();
+        System.out.println("Choose the bike you want to builder");
+        double priceVehicle = scanner.nextDouble();
+        world.createCar(ID,brandCar);
         operationController.increaseNumOfOperations();
     }
 
     public void buyCar() {
+        //world.buyCar();
         operationController.increaseNumOfOperations();
     }
 
