@@ -2,10 +2,9 @@ package uh.ac.cr.model;
 
 public class Bicycle extends Vehicle{
 
-    public Bicycle (String brandBicycle, double priceVehicle){
-        super(brandBicycle);
+    public Bicycle (int ID, String brandBicycle){
+        super(ID, brandBicycle, 3);
         this.numberOfTires = 2;
-        this.priceVehicle = priceVehicle;
     }
 
     public void drive () {

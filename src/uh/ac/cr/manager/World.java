@@ -39,9 +39,9 @@ public class World {
 
     //PEOPLE
     //Methods to create the different people according to their roles.
-    public void createDoctor(int id, String name, String lastName, double income, String specialization) {
+    public void createDoctor(int id, String name, String lastName, String specialization) {
         if (woods.areThereTreesAvailable(personArrayList.size())) {
-            personArrayList.add(new Doctor(id, name, lastName, income, specialization));
+            personArrayList.add(new Doctor(id, name, lastName, specialization));
             amountDoctors++;
         }
     }
@@ -54,9 +54,9 @@ public class World {
         }
     }
 
-    public void createBuilder(int id, String name, String lastName, double income) {
+    public void createBuilder(int id, String name, String lastName) {
         if (woods.areThereTreesAvailable(personArrayList.size()) && amountBuilders < amountDoctors * 2 && amountBuilders < amountChefs * 2) {
-            personArrayList.add(new Builder(id, name, lastName, income));
+            personArrayList.add(new Builder(id, name, lastName));
             amountBuilders++;
         }
     }
@@ -68,9 +68,9 @@ public class World {
         }
     }
 
-    public void createCarpenter(int id, String name, String lastName, double income) {
+    public void createCarpenter(int id, String name, String lastName) {
         if (woods.areThereTreesAvailable(personArrayList.size()) && woods.areThereTreesAvailable(personArrayList.size()) && amountCarpenters < amountDoctors) {
-            personArrayList.add(new Carpenter(id, name, lastName, income));
+            personArrayList.add(new Carpenter(id, name, lastName));
             amountCarpenters++;
         }
     }
@@ -96,9 +96,10 @@ public class World {
         }
     }
 
-    public void createBicycle(String brand, double price) {
+    public void createBicycle(int ID, String brand) {
+        //TODO - Manejar excepciones.
         if (amountBlacksmiths >= 1) {
-            vehicleArrayList.add(new Bicycle(brand, price));
+            vehicleArrayList.add(new Bicycle(ID, brand));
             amountVehicle++;
 
         }
@@ -109,34 +110,44 @@ public class World {
         vehicleArrayList.add(new Car(ID, brand));
         amountVehicle++;
     }
-    //Methods to buy the vehicles
-    //TODO
 
-    public void buyBicycle(Person owner, Bicycle bicycle) {
-        //TODO - Revisar si es mejor verificar si tiene el dinero en el mismo metodo o en la clase menu.
-        if (owner.hasMoney(3)) {
-            owner.withdrawMoney(3);
-            bicycle.setOwner(owner);
+    public String getStringOfPeople() {
+        String stringOfPeople = "";
+        for (Person person : personArrayList) {
+            stringOfPeople = stringOfPeople + person.getPersonInfo() + "\n";
         }
+        return stringOfPeople;
     }
 
-    public void buyCar(Person owner, Car car) {
-        owner.withdrawMoney(25);
-        car.setOwner(owner);
+    public String getStringOfBicycles() {
+        String stringOfBicycles = "";
+        for (Vehicle vehicle : vehicleArrayList) {
+            if (vehicle instanceof Bicycle) {
+                stringOfBicycles = stringOfBicycles + vehicle.getBicycleInfo() + "\n";
+            }
+        }
+        return stringOfBicycles;
     }
 
-    //Methods to drive the vehicles
-    //TODO
-
-    public void driveBicycle(Bicycle bicycle) {
-        bicycle.drive();
+    public Person getPersonByID(int personID) {
+        for (Person person: personArrayList) {
+            if (person.getId() == personID) {
+                return person;
+            }
+        }
+        return null;
     }
 
-    public void driveCar(Car car) {
-        car.drive();
-        woods.decreaseTrees(3);
+    public Bicycle getBicycleByID(int bicycleID) {
+        for (Vehicle vehicle: vehicleArrayList) {
+            if (vehicle instanceof Bicycle) {
+                if (vehicle.getID() == bicycleID) {
+                    return (Bicycle) vehicle;
+                }
+            }
+        }
+        return null;
     }
-
 
     //Methods to delete the different people according to their roles.
     public void deleteDoctor(Doctor doctor) {
@@ -170,6 +181,36 @@ public class World {
     }
 
 
+    //Methods to buy the vehicles
+    //TODO
+
+    public void buyBicycle(Person owner, Bicycle bicycle) {
+        //TODO - Revisar si es mejor verificar si tiene el dinero en el mismo metodo o en la clase menu.
+        if (owner.hasMoney(3)) {
+            owner.withdrawMoney(3);
+            bicycle.setOwner(owner);
+        }
+    }
+
+    public void buyCar(Person owner, Car car) {
+        owner.withdrawMoney(25);
+        car.setOwner(owner);
+    }
+
+    //Methods to drive the vehicles
+    //TODO
+
+    public void driveBicycle(Bicycle bicycle) {
+        bicycle.drive();
+    }
+
+    public void driveCar(Car car) {
+        car.drive();
+        woods.decreaseTrees(3);
+    }
+
+
+
     public void depositToDoctors(double moneyToDeposit) {
         //TODO - Si la persona que se enfermo es un doctor tambien, hay que asegurarse de que no le deposite a él tambien
         for (Person person : personArrayList) {
@@ -196,6 +237,10 @@ public class World {
 
     public ArrayList<Person> getPersonArrayList() {
         return personArrayList;
+    }
+
+    public void plantTree() {
+        woods.increaseTrees();
     }
 
     public Woods getWoods() {

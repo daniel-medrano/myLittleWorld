@@ -1,6 +1,7 @@
 package uh.ac.cr.model;
 
 public abstract class Vehicle {
+    protected int ID;
     protected Person owner;
     protected int numberOfTires;
     protected String brandVehicle;
@@ -9,11 +10,16 @@ public abstract class Vehicle {
 
     public Vehicle() {}
 
-    public Vehicle(String brandVehicle) {
+    public Vehicle(int ID, String brandVehicle, double priceVehicle) {
+        this.ID = ID;
         this.brandVehicle = brandVehicle;
+        this.priceVehicle = priceVehicle;
     }
 
 
+    public String getBicycleInfo() {
+        return ID  + " - " + brandVehicle + ". " + owner.getFullName();
+    }
 
     public abstract void drive();
 

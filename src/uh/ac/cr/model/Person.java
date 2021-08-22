@@ -71,6 +71,14 @@ public abstract class Person implements MoneyLender{
         }
     }
 
+    public String getPersonInfo() {
+        return id + " - " + name + " " + lastName;
+    }
+
+    public String getFullName() {
+        return name + " " + lastName;
+    }
+
     public boolean hasMoney(double moneyToCompare) {
         return moneyToCompare <= income;
     }

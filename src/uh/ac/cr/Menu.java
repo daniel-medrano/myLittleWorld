@@ -1,10 +1,15 @@
 package uh.ac.cr;
 
 import uh.ac.cr.manager.World;
+import uh.ac.cr.model.Bicycle;
+import uh.ac.cr.model.Person;
 import uh.ac.cr.util.OperationController;
 
+import java.util.Scanner;
+
 public class Menu {
-    World people;
+    World world;
+    Scanner scanner;
 
 
     OperationController operationController;
@@ -46,6 +51,17 @@ public class Menu {
     }
 
     public void createDoctor() {
+        System.out.println("Insert the ID of the doctor:");
+        int doctorID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Insert the name of the doctor:");
+        String doctorName = scanner.nextLine();
+        System.out.println("Insert the last name of the doctor:");
+        String doctorLastName = scanner.nextLine();
+        System.out.println("Insert the specialization of the doctor:");
+        String doctorSpecialization = scanner.nextLine();
+
+        world.createDoctor(doctorID, doctorName, doctorLastName, doctorSpecialization);
         operationController.increaseNumOfOperations();
     }
 
@@ -79,6 +95,15 @@ public class Menu {
     }
 
     public void createBlacksmith() {
+        System.out.println("Insert the ID of the blacksmith:");
+        int blacksmithID = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Insert the name of the blacksmith:");
+        String blacksmithName = scanner.nextLine();
+        System.out.println("Insert the last name of the blacksmith:");
+        String blacksmithLastName = scanner.nextLine();
+
+        world.createBlacksmith(blacksmithID, blacksmithName, blacksmithLastName);
         operationController.increaseNumOfOperations();
     }
 
@@ -96,6 +121,13 @@ public class Menu {
         operationController.increaseNumOfOperations();
     }
      public void buildHouse (){
+        //TODO - Test method
+        int buyerID;
+        do {
+            System.out.println("Select the buyer of the house. ");
+            System.out.println(world.getStringOfPeople());
+            buyerID = scanner.nextInt();
+        } while (world.getPersonByID(buyerID) == null);
 
      }
 
@@ -142,6 +174,9 @@ public class Menu {
     }
 
     public void driveBicycle() {
+
+        //world.driveBicycle();
+        System.out.println("Choose the bike you want to drive.");
         operationController.increaseNumOfOperations();
 
     }

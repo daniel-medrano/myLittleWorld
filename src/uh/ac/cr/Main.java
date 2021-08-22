@@ -50,7 +50,7 @@ public class Main {
                     case "plant tree ":
                         menu.plantTree();
                         break;
-                    case "build bicycle.":
+                    case "build bicycle":
                         menu.buildBicycle();
                         break;
                     case "buy bicycle":

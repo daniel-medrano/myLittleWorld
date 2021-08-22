@@ -11,7 +11,8 @@ public class OperationController {
 
     private int numOfOperations;
     private int numOfCreations;
-    private World people;
+    //TODO - Change name to doctors.
+    private World world;
 
     public OperationController(World world) {
         this.world = world;

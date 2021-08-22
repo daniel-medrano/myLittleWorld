@@ -4,8 +4,8 @@ public class Builder extends Person {
     private int payForHouse;
 
 
-    public Builder(int id, String name, String lastName, double income) {
-        super(id, name, lastName, income);
+    public Builder(int id, String name, String lastName) {
+        super(id, name, lastName, 0);
     }
     @Override
     public void requestMoney(){
