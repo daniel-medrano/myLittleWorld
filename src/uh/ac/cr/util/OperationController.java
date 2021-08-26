@@ -28,6 +28,12 @@ public class OperationController {
         numOfOperations++;
     }
 
+    public void checkNumOfCreations(){
+        if (numOfCreations % 5 == 0){
+            world.depositToAllPeople(1);
+        }
+    }
+
 
     //2 means that the person will get sick, 1 means that the person will stay healthy.
     public void check(ArrayList<Person> personArrayList, Woods woods) {
@@ -60,9 +66,6 @@ public class OperationController {
         }
         if (numOfOperations % 10 == 0) {
             woods.decreaseTrees(5);
-
-
-
 
         }
     }

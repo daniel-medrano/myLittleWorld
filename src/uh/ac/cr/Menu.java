@@ -22,6 +22,7 @@ public class Menu {
     }
     public void verify() {
         operationController.check(world.getPersonArrayList(), world.getWoods());
+        operationController.checkNumOfCreations();
     }
 
     public void startNewWorld(String nameWorld) {
@@ -30,23 +31,24 @@ public class Menu {
     }
 
     public void help() {
-        System.out.println("The commands are: \n" +
-                " exit. \n" +
-                " create doctor. \n" +
-                " create chef. \n" +
-                " create builder. \n" +
-                " create blacksmith. \n" +
-                " create carpenter. \n" +
-                " build house. \n" +
-                " plant tree. \n" +
-                " build bicycle. \n" +
-                " buy bicycle.  \n" +
-                " drive bicycle. \n" +
-                " build car. \n" +
-                " buy car. \n" +
-                " drive car. \n" +
-                " request loan. \n"+
-                " print statistics. ");
+        System.out.println("""
+                The commands are:\s
+                 exit\s
+                 create doctor\s
+                 create chef\s
+                 create builder\s
+                 create blacksmith\s
+                 create carpenter\s
+                 build house\s
+                 plant tree\s
+                 build bicycle\s
+                 buy bicycle \s
+                 drive bicycle\s
+                 build car\s
+                 buy car\s
+                 drive car\s
+                 request loan\s
+                 print statistics\s""");
 
     }
 
@@ -60,8 +62,17 @@ public class Menu {
         String doctorLastName = scanner.nextLine();
         System.out.println("Insert the specialization of the doctor:");
         String doctorSpecialization = scanner.nextLine();
-
-        world.createDoctor(doctorID, doctorName, doctorLastName, doctorSpecialization);
+        if (doctorSpecialization.equals("Cancel")) {
+            System.out.println("\nDONE: The operation has been canceled.\n");
+            //Exits the operation.
+            return;
+        }
+        try {
+            //TODO - Delete the verification of the ID from createDoctor, because that is already done when the ID is asked.
+            world.createDoctor(doctorID, doctorName, doctorLastName, doctorSpecialization);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         operationController.increaseNumOfOperations();
     }
 
@@ -77,6 +88,10 @@ public class Menu {
         // TODO REVISAR
         System.out.println("Insert the recipes of the chef:");
         String chefRecipes = scanner.nextLine();
+
+        //world.createChef(chefID,chefName,chefLastName,chefRecipes);
+
+
         operationController.increaseNumOfOperations();
     }
 
@@ -103,7 +118,11 @@ public class Menu {
         System.out.println("Insert the last name of the blacksmith:");
         String blacksmithLastName = scanner.nextLine();
 
-        world.createBlacksmith(blacksmithID, blacksmithName, blacksmithLastName);
+        try {
+            world.createBlacksmith(blacksmithID, blacksmithName, blacksmithLastName);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         operationController.increaseNumOfOperations();
     }
 
@@ -116,7 +135,11 @@ public class Menu {
         System.out.println("Insert the last name of the carpenter");
         String carpenterLastname = scanner.nextLine();
 
-        world.createCarpenter(carpenterID, carpenterName, carpenterLastname);
+        try {
+            world.createCarpenter(carpenterID, carpenterName, carpenterLastname);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
 
         operationController.increaseNumOfOperations();
     }
@@ -125,9 +148,10 @@ public class Menu {
         int buyerID;
         do {
             System.out.println("Select the buyer of the house. ");
-            System.out.println(world.getStringOfPeople());
+            System.out.println(world.getPeople());
             buyerID = scanner.nextInt();
         } while (world.getPersonByID(buyerID) == null);
+
 
      }
 
@@ -146,6 +170,7 @@ public class Menu {
         String brandBicycle = scanner.nextLine();
         world.createBicycle(bicycleID,brandBicycle);
         operationController.increaseNumOfOperations();
+        operationController.increaseNumOfCreations();
 
     }
 
@@ -163,10 +188,11 @@ public class Menu {
         int ownerID;
         do {
             System.out.println("Choose the owner of the bike you want to buy.");
-            System.out.println(world.getStringOfPeople());
+            System.out.println(world.getPeople());
             ownerID = scanner.nextInt();
             owner = world.getPersonByID(ownerID);
         } while (owner == null);
+
 
         world.buyBicycle(owner, bicycle);
         operationController.increaseNumOfOperations();
@@ -174,9 +200,15 @@ public class Menu {
     }
 
     public void driveBicycle() {
-
-        //world.driveBicycle();
-        System.out.println("Choose the bike you want to drive.");
+        System.out.println("Choose the bicycle you want to drive.");
+        System.out.println(world.getBicyclesWithOwners());
+        int bicycleWithOwners = scanner.nextInt();
+        scanner.nextLine();
+        try {
+            world.driveBicycle(bicycleWithOwners);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         operationController.increaseNumOfOperations();
 
     }
@@ -191,6 +223,7 @@ public class Menu {
         double priceVehicle = scanner.nextDouble();
         world.createCar(ID,brandCar);
         operationController.increaseNumOfOperations();
+        operationController.increaseNumOfCreations();
     }
 
     public void buyCar() {

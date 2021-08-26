@@ -29,6 +29,7 @@ public class Main {
                         break;
                     case "exit":
                         exit = false;
+                        break;
                     case "create doctor":
                         menu.createDoctor();
                         break;

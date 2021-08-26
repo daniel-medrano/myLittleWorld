@@ -8,7 +8,8 @@ public abstract class Vehicle {
     protected double priceVehicle;
 
 
-    public Vehicle() {}
+    public Vehicle() {
+    }
 
     public Vehicle(int ID, String brandVehicle, double priceVehicle) {
         this.ID = ID;
@@ -18,7 +19,7 @@ public abstract class Vehicle {
 
 
     public String getBicycleInfo() {
-        return ID  + " - " + brandVehicle + ". " + owner.getFullName();
+        return ID + " - " + brandVehicle + ". " + owner.getFullName();
     }
 
     public abstract void drive();
@@ -26,7 +27,6 @@ public abstract class Vehicle {
     public void setOwner(Person owner) {
         this.owner = owner;
     }
-
 
 
     public int getNumberOfTires() {
@@ -62,11 +62,15 @@ public abstract class Vehicle {
             this.ID = ID;
         }
 
-        public Person getOwner() {
-            return owner;
-        }
+    public Person getOwner() {
+        return owner;
+    }
 
-        public void setPriceVehicle(double priceVehicle) {
-            this.priceVehicle = priceVehicle;
-        }
+    public void setPriceVehicle(double priceVehicle) {
+        this.priceVehicle = priceVehicle;
+    }
+
+    public boolean hasOwner() {
+        return owner != null;
+    }
 }

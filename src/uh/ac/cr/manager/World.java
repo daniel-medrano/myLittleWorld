@@ -18,6 +18,7 @@ public class World {
     private int amountHouses;
     private int amountBicycle;
     private int amountVehicle;
+    private int amountCars;
     //Woods controls the amount of trees and everything that has something to do with it.
     private Woods woods;
 
@@ -34,6 +35,7 @@ public class World {
         amountHouses = 0;
         amountBicycle =0;
         amountVehicle = 0;
+        amountCars = 0;
         woods = new Woods();
     }
 
@@ -101,17 +103,22 @@ public class World {
         if (amountBlacksmiths >= 1) {
             vehicleArrayList.add(new Bicycle(ID, brand));
             amountVehicle++;
-
+            amountBicycle++;
+        } else {
+            if (amountBlacksmiths == 0) {
+                throw new Exception("\nERROR: You must create a blacksmith to be able to build the bicycle.\n");
+            }
         }
-
     }
 
-    public void createCar( int ID ,String brand) {
+    public void createCar(int ID, String brand) {
         vehicleArrayList.add(new Car(ID, brand));
         amountVehicle++;
+        amountCars++;
+
     }
 
-    public String getStringOfPeople() {
+    public String getPeople() {
         String stringOfPeople = "";
         for (Person person : personArrayList) {
             stringOfPeople = stringOfPeople + person.getPersonInfo() + "\n";
@@ -119,7 +126,7 @@ public class World {
         return stringOfPeople;
     }
 
-    public String getStringOfBicycles() {
+    public String getBicycles() {
         String stringOfBicycles = "";
         for (Vehicle vehicle : vehicleArrayList) {
             if (vehicle instanceof Bicycle) {
@@ -129,8 +136,22 @@ public class World {
         return stringOfBicycles;
     }
 
+
+    public String getBicyclesWithOwners() {
+        String bicycleWithOwners = "";
+        for (Vehicle vehicle : vehicleArrayList) {
+            if (vehicle instanceof Bicycle) {
+                if (vehicle.hasOwner()) {
+                    bicycleWithOwners = bicycleWithOwners + vehicle.getBicycleInfo() + "\n";
+                }
+            }
+        }
+        return bicycleWithOwners;
+    }
+
+
     public Person getPersonByID(int personID) {
-        for (Person person: personArrayList) {
+        for (Person person : personArrayList) {
             if (person.getId() == personID) {
                 return person;
             }
@@ -139,7 +160,7 @@ public class World {
     }
 
     public Bicycle getBicycleByID(int bicycleID) {
-        for (Vehicle vehicle: vehicleArrayList) {
+        for (Vehicle vehicle : vehicleArrayList) {
             if (vehicle instanceof Bicycle) {
                 if (vehicle.getID() == bicycleID) {
                     return (Bicycle) vehicle;
@@ -186,6 +207,8 @@ public class World {
 
     public void buyBicycle(Person owner, Bicycle bicycle) {
         //TODO - Revisar si es mejor verificar si tiene el dinero en el mismo metodo o en la clase menu.
+
+
         if (owner.hasMoney(3)) {
             owner.withdrawMoney(3);
             bicycle.setOwner(owner);
@@ -209,14 +232,19 @@ public class World {
         woods.decreaseTrees(3);
     }
 
-
-
+    //MANAGE MONEY METHODS
     public void depositToDoctors(double moneyToDeposit) {
         //TODO - Si la persona que se enfermo es un doctor tambien, hay que asegurarse de que no le deposite a él tambien
         for (Person person : personArrayList) {
             if (person instanceof Doctor) {
                 person.depositMoney(moneyToDeposit);
             }
+        }
+    }
+
+    public void depositToAllPeople( int moneyToDeposit) {
+        for (Person person : personArrayList) {
+            person.depositMoney(moneyToDeposit);
         }
     }
 
