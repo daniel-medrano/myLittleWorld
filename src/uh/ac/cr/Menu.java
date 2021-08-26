@@ -10,6 +10,8 @@ import java.util.Scanner;
 public class Menu {
     World world;
     Scanner scanner;
+    boolean ready;
+    String input;
 
 
     OperationController operationController;
@@ -53,14 +55,46 @@ public class Menu {
     }
 
     public void createDoctor() {
-        System.out.println("Insert the ID of the doctor:");
-        int doctorID = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println("Insert the name of the doctor:");
+        ready = false;
+        int doctorID = 0;
+        do {
+            try {
+                System.out.println("Insert the ID of the doctor. Insert \"Cancel\" if don't want to continue.");
+                input = scanner.next();
+                scanner.nextLine();
+
+                if (input.equals("Cancel")) {
+                    System.out.println("\nDONE: The operation has been canceled.\n");
+                    //Exits the operation.
+                    return;
+                } else {
+                    doctorID = Integer.parseInt(input);
+                    if (!world.existsPerson(doctorID)) {
+                        ready = true;
+                    } else {
+                        System.err.println("\nERROR: There is already a doctor with this ID.\n");
+                    }
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("\nERROR: The ID must be a number.\n");
+            }
+        } while (!ready);
+
+        System.out.println("Insert the name of the doctor. Insert \"Cancel\" if don't want to continue.");
         String doctorName = scanner.nextLine();
-        System.out.println("Insert the last name of the doctor:");
+        if (doctorName.equals("Cancel")) {
+            System.out.println("\nDONE: The operation has been canceled.\n");
+            //Exits the operation.
+            return;
+        }
+        System.out.println("Insert the last name of the doctor. Insert \"Cancel\" if don't want to continue.");
         String doctorLastName = scanner.nextLine();
-        System.out.println("Insert the specialization of the doctor:");
+        if (doctorLastName.equals("Cancel")) {
+            System.out.println("\nDONE: The operation has been canceled.\n");
+            //Exits the operation.
+            return;
+        }
+        System.out.println("Insert the specialization of the doctor. Insert \"Cancel\" if don't want to continue.");
         String doctorSpecialization = scanner.nextLine();
         if (doctorSpecialization.equals("Cancel")) {
             System.out.println("\nDONE: The operation has been canceled.\n");
@@ -81,10 +115,21 @@ public class Menu {
         System.out.println("Insert the ID of the chef: ");
         int chefID = scanner.nextInt();
         scanner.nextLine();
+
         System.out.println("Insert the name of the chef:");
         String chefName = scanner.nextLine();
+        if (chefName.equals("Cancel")) {
+            System.out.println("\nDONE: The operation has been canceled.\n");
+            //Exits the operation.
+            return;
+        }
         System.out.println("Insert the last name of the chef:");
         String chefLastName = scanner.nextLine();
+        if (chefLastName.equals("Cancel")) {
+            System.out.println("\nDONE: The operation has been canceled.\n");
+            //Exits the operation.
+            return;
+        }
 
         // TODO REVISAR
         System.out.println("Insert the recipes of the chef:");
@@ -100,25 +145,51 @@ public class Menu {
         System.out.println("Insert the ID of the builder");
         int builderID = scanner.nextInt();
         scanner.nextLine();
+
         System.out.println("Insert the name of the builder");
         String builderName =scanner.nextLine();
+        if (builderName.equals("Cancel")) {
+            System.out.println("\nDONE: The operation has been canceled.\n");
+            //Exits the operation.
+            return;
+        }
         System.out.println("Insert the last name of the builder");
         String builderLastName = scanner.nextLine();
+        if (builderLastName.equals("Cancel")) {
+            System.out.println("\nDONE: The operation has been canceled.\n");
+            //Exits the operation.
+            return;
+        }
 
-        world.createBuilder(builderID, builderName, builderLastName);
+        try {
+            world.createBuilder(builderID, builderName, builderLastName);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
 
         operationController.increaseNumOfOperations();
     }
 
     public void createBlacksmith() {
+
         System.out.println("Insert the ID of the blacksmith:");
         int blacksmithID = scanner.nextInt();
         scanner.nextLine();
 
         System.out.println("Insert the name of the blacksmith:");
         String blacksmithName = scanner.nextLine();
+        if (blacksmithName.equals("Cancel")) {
+            System.out.println("\nDONE: The operation has been canceled.\n");
+            //Exits the operation.
+            return;
+        }
         System.out.println("Insert the last name of the blacksmith:");
         String blacksmithLastName = scanner.nextLine();
+        if (blacksmithLastName.equals("Cancel")) {
+            System.out.println("\nDONE: The operation has been canceled.\n");
+            //Exits the operation.
+            return;
+        }
 
         try {
             world.createBlacksmith(blacksmithID, blacksmithName, blacksmithLastName);
@@ -170,7 +241,11 @@ public class Menu {
         scanner.nextLine();
         System.out.println("What is the brand of the bicycle.");
         String brandBicycle = scanner.nextLine();
-        world.createBicycle(bicycleID,brandBicycle);
+        try {
+            world.createBicycle(bicycleID,brandBicycle);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         operationController.increaseNumOfOperations();
         operationController.increaseNumOfCreations();
 
@@ -180,8 +255,8 @@ public class Menu {
         Bicycle bicycle;
         int bicycleID;
         do {
-            System.out.println("Choose the bike you want to buy.");
-            System.out.println(world.getStringOfBicycles());
+            System.out.println("Choose the bicycle you want to buy.");
+            System.out.println(world.getBicycles());
             bicycleID = scanner.nextInt();
             bicycle = world.getBicycleByID(bicycleID);
         } while (bicycle == null);
@@ -219,10 +294,8 @@ public class Menu {
         System.out.println("Insert the ID of the car");
         int ID = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("What is the brand of the bicycle.");
+        System.out.println("What is the brand of the car.");
         String brandCar = scanner.nextLine();
-        System.out.println("Choose the bike you want to builder");
-        double priceVehicle = scanner.nextDouble();
         world.createCar(ID,brandCar);
         operationController.increaseNumOfOperations();
         operationController.increaseNumOfCreations();

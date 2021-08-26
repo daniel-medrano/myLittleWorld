@@ -33,7 +33,7 @@ public class World {
         amountBlacksmiths = 0;
         amountCarpenters = 0;
         amountHouses = 0;
-        amountBicycle =0;
+        amountBicycle = 0;
         amountVehicle = 0;
         amountCars = 0;
         woods = new Woods();
@@ -41,14 +41,18 @@ public class World {
 
     //PEOPLE
     //Methods to create the different people according to their roles.
-    public void createDoctor(int id, String name, String lastName, String specialization) {
-        if (woods.areThereTreesAvailable(personArrayList.size())) {
+    public void createDoctor(int id, String name, String lastName, String specialization) throws Exception {
+        if (areThereTreesAvailable()) {
             personArrayList.add(new Doctor(id, name, lastName, specialization));
             amountDoctors++;
+        } else {
+            if (!areThereTreesAvailable()) {
+                throw new Exception ("\nERROR: There are not enough trees per person. There must be at least " + getTreesAvailable() + "more.\n");
+            }
         }
     }
 
-    public void createChef(int id, String name, String lastName, double income, ArrayList<String> recipes) {
+    public void createChef(int id, String name, String lastName, ArrayList<String> recipes) {
         //TODO - validar recetas falta.
         if (woods.areThereTreesAvailable(personArrayList.size())) {
             personArrayList.add(new Chef(id, name, lastName, recipes));
@@ -56,8 +60,9 @@ public class World {
         }
     }
 
-    public void createBuilder(int id, String name, String lastName) {
-        if (woods.areThereTreesAvailable(personArrayList.size()) && amountBuilders < amountDoctors * 2 && amountBuilders < amountChefs * 2) {
+    public void createBuilder(int id, String name, String lastName) throws Exception {
+
+        if (areThereTreesAvailable() && amountBuilders < amountChefs * 2) {
             personArrayList.add(new Builder(id, name, lastName));
             amountBuilders++;
         } else {
@@ -72,17 +77,31 @@ public class World {
         }
     }
 
-    public void createBlacksmith(int id, String name, String lastName) {
-        if (woods.areThereTreesAvailable(personArrayList.size()) && amountBlacksmiths < amountDoctors * 2) {
+    public void createBlacksmith(int id, String name, String lastName) throws Exception {
+        //For each blacksmith there must be 0.5 doctors, this means that in order to create a blacksmith you must create two doctors.
+        if (areThereTreesAvailable() && amountBlacksmiths < amountDoctors * 2) {
             personArrayList.add(new Blacksmith(id, name, lastName));
             amountBlacksmiths++;
+        } else {
+            if (!areThereTreesAvailable()) {
+                throw new Exception("\nERROR: There are not enough trees per person. There must be at least " + woods.getTreesAvailable(personArrayList.size()) + " more.\n");
+            } else if (!(amountBlacksmiths < amountDoctors * 2)) {
+                throw new Exception("\nERROR: You must create a doctor in order to create two blacksmiths more.\n");
+            }
         }
+
     }
 
-    public void createCarpenter(int id, String name, String lastName) {
-        if (woods.areThereTreesAvailable(personArrayList.size()) && woods.areThereTreesAvailable(personArrayList.size()) && amountCarpenters < amountDoctors) {
+    public void createCarpenter(int id, String name, String lastName) throws Exception {
+        if (areThereTreesAvailable() && amountCarpenters < amountDoctors) {
             personArrayList.add(new Carpenter(id, name, lastName));
             amountCarpenters++;
+        } else {
+            if (!areThereTreesAvailable()) {
+                throw new Exception("\nERROR: There are not enough trees per person. There must be at least " + woods.getTreesAvailable(personArrayList.size()) + " more.\n");
+            } else if (!(amountCarpenters < amountDoctors)) {
+                throw new Exception("\nERROR: You must create another doctor in order to create another blacksmith.\n");
+            }
         }
     }
     //BELONGINGS
@@ -140,7 +159,7 @@ public class World {
         String stringOfBicycles = "";
         for (Vehicle vehicle : vehicleArrayList) {
             if (vehicle instanceof Bicycle) {
-                stringOfBicycles = stringOfBicycles + vehicle.getBicycleInfo() + "\n";
+                stringOfBicycles = stringOfBicycles + vehicle.getBicycleInfoToBuy() + "\n";
             }
         }
         return stringOfBicycles;
@@ -226,7 +245,7 @@ public class World {
     }
 
     public void buyCar(Person owner, Car car) {
-        owner.withdrawMoney(25);
+        owner.withdrawMoney(car.getPriceVehicle());
         car.setOwner(owner);
     }
 
@@ -269,6 +288,19 @@ public class World {
         }
     }
 
+    public boolean existsPerson(int id) {
+        return getPersonByID(id) != null;
+    }
+
+    public boolean existsBicyclesWithOwner(int bicycleID) throws Exception {
+        Bicycle bicycle = getBicycleByID(bicycleID);
+        if (bicycle == null) {
+            throw new Exception("\nERROR: There is not a bicycle with this ID.\n");
+        } else if (!bicycle.hasOwner()) {
+            throw new Exception("\nERROR: This bicycle does not have an owner and therefore it is not in the list. \n");
+        }
+        return bicycle.hasOwner();
+    }
 
     //Method to verify whether or not a person is in the personArrayList.
     public boolean isPersonInList(Person person) {
@@ -285,5 +317,13 @@ public class World {
 
     public Woods getWoods() {
         return woods;
+    }
+
+    public int getTreesAvailable() {
+        return woods.getTreesAvailable(personArrayList.size());
+    }
+
+    public boolean areThereTreesAvailable() {
+        return woods.areThereTreesAvailable(personArrayList.size());
     }
 }

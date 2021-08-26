@@ -22,6 +22,10 @@ public abstract class Vehicle {
         return ID + " - " + brandVehicle + ". " + owner.getFullName();
     }
 
+    public String getBicycleInfoToBuy() {
+        return ID + " - " + brandVehicle + ".";
+    }
+
     public abstract void drive();
 
     public void setOwner(Person owner) {
@@ -53,14 +57,14 @@ public abstract class Vehicle {
         this.priceVehicle = priceVehicle;
     }
 
+    public int getID() {
+        return ID;
+    }
 
-        public int getID() {
-            return ID;
-        }
 
-        public void setID(int ID) {
-            this.ID = ID;
-        }
+    public void setID(int ID) {
+        this.ID = ID;
+    }
 
     public Person getOwner() {
         return owner;
