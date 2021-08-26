@@ -77,6 +77,7 @@ public class Menu {
     }
 
     public void createChef() {
+
         System.out.println("Insert the ID of the chef: ");
         int chefID = scanner.nextInt();
         scanner.nextLine();
@@ -113,6 +114,7 @@ public class Menu {
         System.out.println("Insert the ID of the blacksmith:");
         int blacksmithID = scanner.nextInt();
         scanner.nextLine();
+
         System.out.println("Insert the name of the blacksmith:");
         String blacksmithName = scanner.nextLine();
         System.out.println("Insert the last name of the blacksmith:");

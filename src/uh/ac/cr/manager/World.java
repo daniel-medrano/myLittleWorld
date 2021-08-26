@@ -60,6 +60,15 @@ public class World {
         if (woods.areThereTreesAvailable(personArrayList.size()) && amountBuilders < amountDoctors * 2 && amountBuilders < amountChefs * 2) {
             personArrayList.add(new Builder(id, name, lastName));
             amountBuilders++;
+        } else {
+            if (!areThereTreesAvailable()){
+                throw new Exception ("\nERROR: There are not enough trees per person. There must be at least " + getTreesAvailable() + "more.\n");
+            } else {
+                if (!(amountBuilders < amountChefs * 2)) {
+                    throw new Exception("\nERROR: You must create a chef to create a builder.\n");
+
+                }
+            }
         }
     }
 
@@ -98,9 +107,10 @@ public class World {
         }
     }
 
-    public void createBicycle(int ID, String brand) {
+    public void createBicycle(int ID, String brand) throws Exception {
         //TODO - Manejar excepciones.
         if (amountBlacksmiths >= 1) {
+
             vehicleArrayList.add(new Bicycle(ID, brand));
             amountVehicle++;
             amountBicycle++;
@@ -223,8 +233,10 @@ public class World {
     //Methods to drive the vehicles
     //TODO
 
-    public void driveBicycle(Bicycle bicycle) {
-        bicycle.drive();
+    public void driveBicycle(int bicycleID) throws Exception {
+        //Method that throws Exceptions.
+        existsBicyclesWithOwner(bicycleID);
+        getBicycleByID(bicycleID).drive();
     }
 
     public void driveCar(Car car) {
