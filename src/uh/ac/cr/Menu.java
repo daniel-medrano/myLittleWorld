@@ -23,7 +23,7 @@ public class Menu {
 
     }
     public void verify() {
-        operationController.check(world.getPersonArrayList(), world.getWoods());
+        operationController.checkNumOfOperations(world.getPersonArrayList(), world.getWoods());
         operationController.checkNumOfCreations();
     }
 
@@ -299,6 +299,7 @@ public class Menu {
         world.createCar(ID,brandCar);
         operationController.increaseNumOfOperations();
         operationController.increaseNumOfCreations();
+
     }
 
     public void buyCar() {
@@ -307,6 +308,33 @@ public class Menu {
     }
 
     public void driveCar() {
+        ready = false;
+        int carWithOwnerID = 0;
+        do {
+            try {
+                System.out.println("Insert the ID of the car you want to drive. Insert \"Cancel\" if don't want to continue.");
+                System.out.println(world.getCarsWithOwners());
+                input = scanner.next();
+                scanner.nextLine();
+
+                if (input.equals("Cancel")) {
+                    System.out.println("\nDONE: The operation has been canceled.\n");
+                    //Exits the operation.
+                    return;
+                } else {
+                    carWithOwnerID = Integer.parseInt(input);
+                    if (world.existsCarWithoutOwner(carWithOwnerID)) {
+                        ready = true;
+                    }
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("\nERROR: The ID must be a number.\n");
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+        } while (!ready);
+
+        world.driveCar(carWithOwnerID);
         operationController.increaseNumOfOperations();
     }
 

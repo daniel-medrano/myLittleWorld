@@ -36,7 +36,7 @@ public class OperationController {
 
 
     //2 means that the person will get sick, 1 means that the person will stay healthy.
-    public void check(ArrayList<Person> personArrayList, Woods woods) {
+    public void checkNumOfOperations(ArrayList<Person> personArrayList, Woods woods) {
 
         if (numOfOperations % 5 == 0) {
 
@@ -66,6 +66,8 @@ public class OperationController {
         }
         if (numOfOperations % 10 == 0) {
             woods.decreaseTrees(5);
+        }
+        if (numOfOperations % 15 == 0){
 
         }
     }

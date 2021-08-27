@@ -77,4 +77,12 @@ public abstract class Vehicle {
     public boolean hasOwner() {
         return owner != null;
     }
+
+    public Person getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Person creator) {
+        this.creator = creator;
+    }
 }

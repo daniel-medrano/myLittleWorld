@@ -22,7 +22,6 @@ public class World {
     //Woods controls the amount of trees and everything that has something to do with it.
     private Woods woods;
 
-
     public World() {
         houseArrayList = new ArrayList<>();
         vehicleArrayList = new ArrayList<>();
@@ -37,6 +36,7 @@ public class World {
         amountVehicle = 0;
         amountCars = 0;
         woods = new Woods();
+        government = new Government();
     }
 
     //PEOPLE
@@ -47,7 +47,7 @@ public class World {
             amountDoctors++;
         } else {
             if (!areThereTreesAvailable()) {
-                throw new Exception ("\nERROR: There are not enough trees per person. There must be at least " + getTreesAvailable() + "more.\n");
+                throw new Exception("\nERROR: There are not enough trees per person. There must be at least " + getTreesAvailable() + "more.\n");
             }
         }
     }
@@ -66,8 +66,8 @@ public class World {
             personArrayList.add(new Builder(id, name, lastName));
             amountBuilders++;
         } else {
-            if (!areThereTreesAvailable()){
-                throw new Exception ("\nERROR: There are not enough trees per person. There must be at least " + getTreesAvailable() + "more.\n");
+            if (!areThereTreesAvailable()) {
+                throw new Exception("\nERROR: There are not enough trees per person. There must be at least " + getTreesAvailable() + "more.\n");
             } else {
                 if (!(amountBuilders < amountChefs * 2)) {
                     throw new Exception("\nERROR: You must create a chef to create a builder.\n");
@@ -122,6 +122,8 @@ public class World {
                 }
             }
             houseArrayList.add(new House(buyer));
+            //TODO -  se pagan los importos al gobierno por la creacion de la casa
+            government.depositTaxes(10);
             amountHouses++;
         }
     }
@@ -140,8 +142,13 @@ public class World {
         }
     }
 
-    public void createCar(int ID, String brand) {
-        vehicleArrayList.add(new Car(ID, brand));
+    public void createCar(int ID, String brand, int doctorID, int carpenterID) {
+        Person[] creators = new Person[2];
+        creators[0] = getPersonByID(doctorID);
+        creators[1] = getPersonByID(carpenterID);
+        vehicleArrayList.add(new Car(ID, brand, creators));
+        //TODO - SE PAGAN LOS IMPUESTOS AL GOBIERNO POPR LA CREACION DEL CARRO
+        government.depositTaxes(5);
         amountVehicle++;
         amountCars++;
 
@@ -154,6 +161,38 @@ public class World {
         }
         return stringOfPeople;
     }
+
+    public String getDoctors() {
+        String stringOfPeople = "";
+        for (Person person : personArrayList) {
+            if (person instanceof Doctor) {
+                stringOfPeople = stringOfPeople + person.getPersonInfo() + "\n";
+            }
+        }
+        return stringOfPeople;
+    }
+
+    public String getCarpenters() {
+        String stringOfPeople = "";
+        for (Person person : personArrayList) {
+            if (person instanceof Carpenter) {
+                stringOfPeople = stringOfPeople + person.getPersonInfo() + "\n";
+            }
+        }
+        return stringOfPeople;
+    }
+
+
+    public String getBlacksmiths() {
+        String stringOfPeople = "";
+        for (Person person : personArrayList) {
+            if (person instanceof Blacksmith) {
+                stringOfPeople = stringOfPeople + person.getPersonInfo() + "\n";
+            }
+        }
+        return stringOfPeople;
+    }
+
 
     public String getBicycles() {
         String stringOfBicycles = "";
@@ -256,6 +295,7 @@ public class World {
         //Method that throws Exceptions.
         existsBicyclesWithOwner(bicycleID);
         getBicycleByID(bicycleID).drive();
+
     }
 
     public void driveCar(Car car) {
@@ -273,7 +313,7 @@ public class World {
         }
     }
 
-    public void depositToAllPeople( int moneyToDeposit) {
+    public void depositToAllPeople(int moneyToDeposit) {
         for (Person person : personArrayList) {
             person.depositMoney(moneyToDeposit);
         }
@@ -313,6 +353,7 @@ public class World {
 
     public void plantTree() {
         woods.increaseTrees();
+        government.withdrawMoney(0.5);
     }
 
     public Woods getWoods() {
