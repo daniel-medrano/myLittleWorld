@@ -47,7 +47,7 @@ public class Chef extends Person {
                 "\t\t\t\"income\": " + income + ",\n" +
                 "\t\t\t\"sick\": " + sick + ",\n" +
                 "\t\t\t\"dead\": " + dead + ",\n" +
-                "\t\t\t\"recipes\": " + getRecipes() + "\n" +
+                "\t\t\t\"recipes\": [" + getRecipes() + "]\n" +
                 "\t\t}";
     }
 }

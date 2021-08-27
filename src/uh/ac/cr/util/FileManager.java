@@ -1,14 +1,14 @@
 package uh.ac.cr.util;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
+import uh.ac.cr.manager.World;
+
+import java.io.*;
 
 public class FileManager {
 
     File file;
     FileWriter fileWriter;
+    FileReader fileReader;
 
     public FileManager() {
         file = null;
@@ -33,19 +33,17 @@ public class FileManager {
         }
     }
 
-    public void load(String nameWorld) throws Exception {
+    public void load(String nameWorld, World world, OperationController operationController) throws FileNotFoundException {
         file = new File("src/uh/ac/cr/worlds", nameWorld + ".txt");
-        if (!file.exists()) {
-            throw new Exception("\nERROR: The file doesn't exist.\n");
-        }
+
+        readFile(file, world, operationController);
     }
 
-    public void writePeople() {
+    public void readFile(File file, World world, OperationController operationController) throws FileNotFoundException {
+        fileReader = new FileReader(file);
 
+        //TODO - Finish
     }
-
-    public void writeVehicles() {}
-
     /*
      *
      *"People": [

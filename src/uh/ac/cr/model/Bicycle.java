@@ -11,4 +11,12 @@ public class Bicycle extends Vehicle{
         System.out.println("The bicycle is being driven...");
         owner.depositMoney(0.1);
     }
+
+    public String getVehicle() {
+        return "\t\t\"Bicycle\": {" + "\n" +
+                "\t\t\t\"id\": " + ID + ",\n" +
+                "\t\t\t\"brand\": "  + "\"" + brandVehicle  + "\"" + ",\n" +
+                "\t\t\t\"creator\": {" + creator.getId() + "}\n" +
+                "\t\t}";
+    }
 }

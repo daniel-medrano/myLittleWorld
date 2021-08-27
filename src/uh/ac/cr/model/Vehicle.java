@@ -35,6 +35,8 @@ public abstract class Vehicle {
 
     public abstract void drive();
 
+    public abstract String getVehicle();
+
     public void setOwner(Person owner) {
         this.owner = owner;
     }

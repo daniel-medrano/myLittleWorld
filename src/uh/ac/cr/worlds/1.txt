@@ -4,17 +4,11 @@
 			"id": 1,
 			"name": "Daniel",
 			"lastName": "Medrano",
-			"income": 2.0,
-			"sick": false,
-			"dead": false
-		},
-		"Doctor": {
-			"id": 2,
-			"name": "Amanda",
-			"lastName": "Guadamuz  ",
-			"income": 1.0,
+			"income": 3.0,
 			"sick": false,
 			"dead": false
 		}
+	]
+	"Vehicles": [
 	]
 ]

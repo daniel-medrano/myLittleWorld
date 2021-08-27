@@ -449,11 +449,23 @@ public class World {
 
     public String getData() {
         return "\"Data\": [\n" +
-                getPeopleString() +
+                getGovernmentString() + "\n" +
+                getPeopleString() + "\n" + //TODO. It is missing a coma.
+                getVehiclesString() + "\n" +
+                getHousesString() + "\n" +
+                getWoodsString() + "\n" +
+                getOperationControllerString() +
                 "\n]";
     }
 
+    public String getGovernmentString() {
+        return "";
+    }
+
     public String getPeopleString() {
+        if (personArrayList.size() == 0) {
+            return "";
+        }
         String peopleString = "";
         for (int i = 0; i < personArrayList.size(); i++) {
             Person person = personArrayList.get(i);
@@ -463,8 +475,38 @@ public class World {
                 peopleString = peopleString + person.getPerson() + ",\n";
             }
         }
-        return "\t\"People\": [\n" +
+        return "\t\"personArrayList\": [\n" +
                 peopleString +
                 "\t]";
+    }
+
+    public String getVehiclesString() {
+        if (vehicleArrayList.size() == 0) {
+            return "";
+        }
+        String vehiclesString = "";
+        for (int i = 0; i < vehicleArrayList.size(); i++) {
+            Vehicle vehicle = vehicleArrayList.get(i);
+            if (i == vehicleArrayList.size() - 1) {
+                vehiclesString = vehiclesString + vehicle.getVehicle() + "\n";
+            } else {
+                vehiclesString = vehiclesString + vehicle.getVehicle() + ",\n";
+            }
+        }
+        return "\t\"vehicleArrayList\": [\n" +
+                vehiclesString +
+                "\t]";
+    }
+
+    public String getHousesString() {
+        return "";
+    }
+
+    public String getWoodsString() {
+        return "";
+    }
+
+    public String getOperationControllerString() {
+        return "";
     }
 }

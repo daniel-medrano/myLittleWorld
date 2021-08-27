@@ -6,18 +6,18 @@ import uh.ac.cr.model.Person;
 import uh.ac.cr.util.FileManager;
 import uh.ac.cr.util.OperationController;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Menu {
     World world;
     FileManager fileManager;
+    OperationController operationController;
+
     Scanner scanner;
     boolean ready;
     String input;
-
-
-    OperationController operationController;
 
     public Menu() {
         world = new World();
@@ -51,9 +51,9 @@ public class Menu {
 
     public void loadWorld(String nameWorld) {
         try {
-            fileManager.load(nameWorld);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+            fileManager.load(nameWorld, world, operationController);
+        } catch (FileNotFoundException e) {
+            System.err.println("\nERROR: The world was not found.\n");
         }
         operationController.increaseNumOfOperations();
     }
@@ -389,7 +389,7 @@ public class Menu {
                     return;
                 } else {
                     bicycleID = Integer.parseInt(input);
-                    if (!world.existsPerson(bicycleID)) {
+                    if (!world.existsVehicle(bicycleID)) {
                         ready = true;
                     } else {
                         System.err.println("\nERROR: There is already a bicycle with this ID.\n");
