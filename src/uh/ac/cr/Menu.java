@@ -230,7 +230,6 @@ public class Menu {
 
     public void plantTree() {
         world.plantTree();
-
         operationController.increaseNumOfOperations();
 
     }
@@ -242,7 +241,7 @@ public class Menu {
         System.out.println("What is the brand of the bicycle.");
         String brandBicycle = scanner.nextLine();
         try {
-            world.createBicycle(bicycleID,brandBicycle);
+            world.createBicycle(bicycleID, brandBicycle, blacksmithID);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -303,9 +302,62 @@ public class Menu {
     }
 
     public void buyCar() {
-        //world.buyCar();
+        ready = false;
+        int carID = 0;
+        do {
+            try {
+                System.out.println("Insert the ID of the car. Insert \"Cancel\" if don't want to continue.");
+                System.out.println(world.getCarsWithoutOwners());
+                input = scanner.next();
+                scanner.nextLine();
+
+                if (input.equals("Cancel")) {
+                    System.out.println("\nDONE: The operation has been canceled.\n");
+                    //Exits the operation.
+                    return;
+                } else {
+                    carID = Integer.parseInt(input);
+                    if (world.existsCarWithoutOwner(carID)) {
+                        ready = true;
+                    }
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("\nERROR: The ID must be a number.\n");
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+            }
+        } while (!ready);
+
+        ready = false;
+        int buyerID = 0;
+        do {
+            try {
+                System.out.println("Insert the ID of the car's buyer. Insert \"Cancel\" if don't want to continue.");
+                System.out.println(world.getPeople());
+                input = scanner.next();
+                scanner.nextLine();
+
+                if (input.equals("Cancel")) {
+                    System.out.println("\nDONE: The operation has been canceled.\n");
+                    //Exits the operation.
+                    return;
+                } else {
+                    buyerID = Integer.parseInt(input);
+                    if (world.existsPerson(buyerID)) {
+                        ready = true;
+                    } else {
+                        System.err.println("\nERROR: There is not a buyer with this ID.\n");
+                    }
+                }
+            } catch (NumberFormatException e) {
+                System.err.println("\nERROR: The ID must be a number.\n");
+            }
+        } while (!ready);
+
+         world.buyCar(buyerID, carID);
         operationController.increaseNumOfOperations();
     }
+
 
     public void driveCar() {
         ready = false;
