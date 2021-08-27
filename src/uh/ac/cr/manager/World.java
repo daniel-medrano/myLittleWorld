@@ -21,6 +21,8 @@ public class World {
     private int amountCars;
     //Woods controls the amount of trees and everything that has something to do with it.
     private Woods woods;
+    private Government government;
+
 
     public World() {
         houseArrayList = new ArrayList<>();
@@ -128,11 +130,10 @@ public class World {
         }
     }
 
-    public void createBicycle(int ID, String brand) throws Exception {
+    public void createBicycle(int bicycleID, String brand, int blacksmithID) throws Exception {
         //TODO - Manejar excepciones.
         if (amountBlacksmiths >= 1) {
-
-            vehicleArrayList.add(new Bicycle(ID, brand));
+            vehicleArrayList.add(new Bicycle(bicycleID, brand, getPersonByID(blacksmithID)));
             amountVehicle++;
             amountBicycle++;
         } else {
@@ -217,11 +218,53 @@ public class World {
         return bicycleWithOwners;
     }
 
+    public String getBicyclesWithoutOwners() {
+        String bicycleWithoutOwners = "";
+        for (Vehicle vehicle : vehicleArrayList) {
+            if (vehicle instanceof Bicycle) {
+                if (!vehicle.hasOwner()) {
+                    bicycleWithoutOwners = bicycleWithoutOwners + vehicle.getBicycleInfoToBuy() + "\n";
+                }
+            }
+        }
+        return bicycleWithoutOwners;
+    }
+    public String getCarsWithOwners() {
+        String carWithOwners = "";
+        for (Vehicle vehicle : vehicleArrayList) {
+            if (vehicle instanceof Car) {
+                if (vehicle.hasOwner()) {
+                    carWithOwners = carWithOwners + vehicle.getBicycleInfo() + "\n";
+                }
+            }
+        }
+        return carWithOwners;
+    }
+    public String getCarsWithoutOwners() {
+        String carWithoutOwners = "";
+        for (Vehicle vehicle : vehicleArrayList) {
+            if (vehicle instanceof Car) {
+                if (vehicle.hasOwner()) {
+                    carWithoutOwners = carWithoutOwners + vehicle.getBicycleInfo() + "\n";
+                }
+            }
+        }
+        return carWithoutOwners;
+    }
 
     public Person getPersonByID(int personID) {
         for (Person person : personArrayList) {
             if (person.getId() == personID) {
                 return person;
+            }
+        }
+        return null;
+    }
+
+    public Vehicle getVehicleByID(int vehicleID) {
+        for (Vehicle vehicle : vehicleArrayList) {
+            if (vehicle.getID() == vehicleID) {
+                return vehicle;
             }
         }
         return null;
@@ -237,6 +280,13 @@ public class World {
         }
         return null;
     }
+    //TODO - IMPRIMIR ESTADISTICAS DEL MUNDO
+    // String getStatistics(  ) {}
+    public void printStactistics(){
+        ///  TODO -----
+
+    }
+
 
     //Methods to delete the different people according to their roles.
     public void deleteDoctor(Doctor doctor) {
@@ -273,33 +323,38 @@ public class World {
     //Methods to buy the vehicles
     //TODO
 
-    public void buyBicycle(Person owner, Bicycle bicycle) {
+    public void buyBicycle(int buyerID, int bicycleID) {
         //TODO - Revisar si es mejor verificar si tiene el dinero en el mismo metodo o en la clase menu.
+        Person buyer = getPersonByID(buyerID);
+        Bicycle bicycle = getBicycleByID(bicycleID);
 
-
-        if (owner.hasMoney(3)) {
-            owner.withdrawMoney(3);
-            bicycle.setOwner(owner);
+        if (buyer.hasMoney(bicycle.getPriceVehicle())) {
+            buyer.withdrawMoney(bicycle.getPriceVehicle());
+            bicycle.setOwner(buyer);
         }
     }
 
-    public void buyCar(Person owner, Car car) {
-        owner.withdrawMoney(car.getPriceVehicle());
-        car.setOwner(owner);
+    public void buyCar(int buyerID, int carID) {
+        Person buyer = getPersonByID(buyerID);
+        Car car = (Car) getVehicleByID(carID);
+
+        if (buyer.hasMoney(car.getPriceVehicle())) {
+            buyer.withdrawMoney(car.getPriceVehicle());
+            car.setOwner(buyer);
+        }
     }
 
     //Methods to drive the vehicles
     //TODO
 
-    public void driveBicycle(int bicycleID) throws Exception {
+    public void driveBicycle(int bicycleID) {
         //Method that throws Exceptions.
-        existsBicyclesWithOwner(bicycleID);
         getBicycleByID(bicycleID).drive();
 
     }
 
-    public void driveCar(Car car) {
-        car.drive();
+    public void driveCar(int carID) {
+        getVehicleByID(carID).drive();
         woods.decreaseTrees(3);
     }
 
@@ -332,7 +387,11 @@ public class World {
         return getPersonByID(id) != null;
     }
 
-    public boolean existsBicyclesWithOwner(int bicycleID) throws Exception {
+    public boolean existsVehicle(int id) {
+        return getVehicleByID(id) != null;
+    }
+
+    public boolean existsBicycleWithOwner(int bicycleID) throws Exception {
         Bicycle bicycle = getBicycleByID(bicycleID);
         if (bicycle == null) {
             throw new Exception("\nERROR: There is not a bicycle with this ID.\n");
@@ -340,6 +399,26 @@ public class World {
             throw new Exception("\nERROR: This bicycle does not have an owner and therefore it is not in the list. \n");
         }
         return bicycle.hasOwner();
+    }
+
+    public boolean existsBicycleWithoutOwner(int bicycleID) throws Exception {
+        Bicycle bicycle = getBicycleByID(bicycleID);
+        if (bicycle == null) {
+            throw new Exception("\nERROR: There is not a bicycle with this ID.\n");
+        } else if (bicycle.hasOwner()) {
+            throw new Exception("\nERROR: This bicycle already has an owner and therefore it is not in the list. \n");
+        }
+        return !bicycle.hasOwner();
+    }
+//TODO ..........................................................................................
+    public boolean existsCarWithoutOwner(int carID) throws Exception {
+        Car car = (Car) getVehicleByID(carID);
+        if (car == null) {
+            throw new Exception("\nERROR: There is not a car with this ID.\n");
+        } else if (car.hasOwner()) {
+            throw new Exception("\nERROR: This car already has an owner and therefore it is not in the list. \n");
+        }
+        return !car.hasOwner();
     }
 
     //Method to verify whether or not a person is in the personArrayList.
