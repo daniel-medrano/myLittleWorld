@@ -71,6 +71,8 @@ public abstract class Person implements MoneyLender{
         }
     }
 
+    public abstract String getPerson();
+
     public String getPersonInfo() {
         return id + " - " + name + " " + lastName;
     }

@@ -65,7 +65,7 @@ public class World {
     public void createBuilder(int id, String name, String lastName) throws Exception {
 
         if (areThereTreesAvailable() && amountBuilders < amountChefs * 2) {
-            personArrayList.add(new Builder(id, name, lastName));
+            personArrayList.add(new Builder(id, name.trim(), lastName.trim()));
             amountBuilders++;
         } else {
             if (!areThereTreesAvailable()) {
@@ -82,7 +82,7 @@ public class World {
     public void createBlacksmith(int id, String name, String lastName) throws Exception {
         //For each blacksmith there must be 0.5 doctors, this means that in order to create a blacksmith you must create two doctors.
         if (areThereTreesAvailable() && amountBlacksmiths < amountDoctors * 2) {
-            personArrayList.add(new Blacksmith(id, name, lastName));
+            personArrayList.add(new Blacksmith(id, name.trim(), lastName.trim()));
             amountBlacksmiths++;
         } else {
             if (!areThereTreesAvailable()) {
@@ -96,7 +96,7 @@ public class World {
 
     public void createCarpenter(int id, String name, String lastName) throws Exception {
         if (areThereTreesAvailable() && amountCarpenters < amountDoctors) {
-            personArrayList.add(new Carpenter(id, name, lastName));
+            personArrayList.add(new Carpenter(id, name.trim(), lastName.trim()));
             amountCarpenters++;
         } else {
             if (!areThereTreesAvailable()) {
@@ -133,7 +133,7 @@ public class World {
     public void createBicycle(int bicycleID, String brand, int blacksmithID) throws Exception {
         //TODO - Manejar excepciones.
         if (amountBlacksmiths >= 1) {
-            vehicleArrayList.add(new Bicycle(bicycleID, brand, getPersonByID(blacksmithID)));
+            vehicleArrayList.add(new Bicycle(bicycleID, brand.trim(), getPersonByID(blacksmithID)));
             amountVehicle++;
             amountBicycle++;
         } else {
@@ -147,7 +147,7 @@ public class World {
         Person[] creators = new Person[2];
         creators[0] = getPersonByID(doctorID);
         creators[1] = getPersonByID(carpenterID);
-        vehicleArrayList.add(new Car(ID, brand, creators));
+        vehicleArrayList.add(new Car(ID, brand.trim(), creators));
         //TODO - SE PAGAN LOS IMPUESTOS AL GOBIERNO POPR LA CREACION DEL CARRO
         government.depositTaxes(5);
         amountVehicle++;
@@ -445,5 +445,26 @@ public class World {
 
     public boolean areThereTreesAvailable() {
         return woods.areThereTreesAvailable(personArrayList.size());
+    }
+
+    public String getData() {
+        return "\"Data\": [\n" +
+                getPeopleString() +
+                "\n]";
+    }
+
+    public String getPeopleString() {
+        String peopleString = "";
+        for (int i = 0; i < personArrayList.size(); i++) {
+            Person person = personArrayList.get(i);
+            if (i == personArrayList.size() - 1) {
+                peopleString = peopleString + person.getPerson() + "\n";
+            } else {
+                peopleString = peopleString + person.getPerson() + ",\n";
+            }
+        }
+        return "\t\"People\": [\n" +
+                peopleString +
+                "\t]";
     }
 }

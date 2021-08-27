@@ -22,12 +22,15 @@ public class Main {
             String[] commandList = command.split(" ");
             if (commandList.length == 4 && commandList[0].equals("start") && commandList[1].equals("new") && commandList[2].equals("world")) {
                 menu.startNewWorld(commandList[3]);
+            }else if (commandList.length == 2 && commandList[0].equals("load")) {
+                menu.loadWorld(commandList[1]);
             } else {
                 switch (command) {
                     case "help":
                         menu.help();
                         break;
                     case "exit":
+                        menu.save();
                         exit = false;
                         break;
                     case "create doctor":
@@ -76,7 +79,7 @@ public class Main {
                         menu.printStatistics();
                         break;
                     default:
-                        System.err.println("ERROR: Not a valid command. In case you need help, type \"help\".");
+                        System.err.println("\nERROR: Not a valid command. In case you need help, type \"help\".\n");
                         break;
                 }
                 menu.verify();

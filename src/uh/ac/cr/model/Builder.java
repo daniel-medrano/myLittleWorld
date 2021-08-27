@@ -1,8 +1,6 @@
 package uh.ac.cr.model;
 
 public class Builder extends Person {
-    private int payForHouse;
-
 
     public Builder(int id, String name, String lastName) {
         super(id, name, lastName, 0);
@@ -20,12 +18,15 @@ public class Builder extends Person {
     public void withdrawMoney(){
     }
 
-    public int getPayForHouse() {
-        return payForHouse;
-    }
-
-    public void setPayForHouse(int payForHouse) {
-        this.payForHouse = payForHouse;
+    public String getPerson() {
+        return "\t\t\"Builder\": {" + "\n" +
+                "\t\t\t\"id\": " + id + ",\n" +
+                "\t\t\t\"name\": "  + "\"" + name  + "\"" + ",\n" +
+                "\t\t\t\"lastName\": "  + "\"" + lastName  + "\"" + ",\n" +
+                "\t\t\t\"income\": " + income + ",\n" +
+                "\t\t\t\"sick\": " + sick + ",\n" +
+                "\t\t\t\"dead\": " + dead + "\n" +
+                "\t\t}";
     }
 
 }

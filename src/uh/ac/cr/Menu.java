@@ -3,12 +3,15 @@ package uh.ac.cr;
 import uh.ac.cr.manager.World;
 import uh.ac.cr.model.Bicycle;
 import uh.ac.cr.model.Person;
+import uh.ac.cr.util.FileManager;
 import uh.ac.cr.util.OperationController;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Menu {
     World world;
+    FileManager fileManager;
     Scanner scanner;
     boolean ready;
     String input;
@@ -18,17 +21,40 @@ public class Menu {
 
     public Menu() {
         world = new World();
+        fileManager = new FileManager();
         operationController = new OperationController(world);
         scanner = new Scanner(System.in);
 
     }
+
+    public void save() {
+        try {
+            fileManager.save(world.getData());
+        } catch (IOException e) {
+            System.err.println("\nERROR: The operation could not be done.\n");
+        }
+    }
+
     public void verify() {
         operationController.checkNumOfOperations(world.getPersonArrayList(), world.getWoods());
         operationController.checkNumOfCreations();
     }
 
     public void startNewWorld(String nameWorld) {
-        System.out.println("Works!");
+        try {
+            fileManager.createWorld(nameWorld);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        operationController.increaseNumOfOperations();
+    }
+
+    public void loadWorld(String nameWorld) {
+        try {
+            fileManager.load(nameWorld);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
         operationController.increaseNumOfOperations();
     }
 

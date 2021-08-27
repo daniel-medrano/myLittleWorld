@@ -24,4 +24,15 @@ public class Carpenter extends Person {
     public void withdrawMoney() {
 
     }
+
+    public String getPerson() {
+        return "\t\t\"Carpenter\": {" + "\n" +
+                "\t\t\t\"id\": " + id + ",\n" +
+                "\t\t\t\"name\": "  + "\"" + name  + "\"" + ",\n" +
+                "\t\t\t\"lastName\": "  + "\"" + lastName  + "\"" + ",\n" +
+                "\t\t\t\"income\": " + income + ",\n" +
+                "\t\t\t\"sick\": " + sick + ",\n" +
+                "\t\t\t\"dead\": " + dead + "\n" +
+                "\t\t}";
+    }
 }
