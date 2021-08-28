@@ -69,7 +69,7 @@ public class World {
 
     public void createBuilder(int id, String name, String lastName) throws Exception {
 
-        if (areThereTreesAvailable() && amountBuilders < amountChefs * 2) {
+        if (areThereTreesAvailable() && amountBuilders < amountChefs * 2 && amountBuilders < amountDoctors * 2) {
             personArrayList.add(new Builder(id, name.trim(), lastName.trim()));
             amountPeople++;
             amountBuilders++;
@@ -156,7 +156,7 @@ public class World {
         creators[0] = getPersonByID(doctorID);
         creators[1] = getPersonByID(carpenterID);
         vehicleArrayList.add(new Car(ID, brand.trim(), creators));
-        //TODO - SE PAGAN LOS IMPUESTOS AL GOBIERNO POPR LA CREACION DEL CARRO
+        //TODO - SE PAGAN LOS IMPUESTOS AL GOBIERNO POR LA CREACION DEL CARRO
         government.depositTaxes(5);
         amountVehicle++;
         amountCars++;

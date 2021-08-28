@@ -8,7 +8,7 @@ public class Bicycle extends Vehicle{
     }
 
     public void drive () {
-        System.out.println("The bicycle is being driven...");
+        System.out.println("The bicycle is being driven... you must keep the balance and pedal continuously.");
         owner.depositMoney(0.1);
     }
 

@@ -21,6 +21,8 @@ public class Woods {
         }
     }
 
+
+
     //Method that checks if there are trees available to create a new person, there must be at least 3 trees available.
     public boolean areThereTreesAvailable(int amountPeople) {
         if (amountPeople == 0) {
