@@ -71,4 +71,8 @@ public class OperationController {
 
         }
     }
+
+    public int getNumOfOperations() {
+        return numOfOperations;
+    }
 }

@@ -1,6 +1,7 @@
 package uh.ac.cr.manager;
 
 import uh.ac.cr.model.*;
+import uh.ac.cr.util.OperationController;
 
 import java.util.ArrayList;
 
@@ -10,6 +11,7 @@ public class World {
     ArrayList<Vehicle> vehicleArrayList;
     ArrayList<Person> personArrayList;
     //Counters are initialized to control the amount of objects.
+    private int amountPeople;
     private int amountDoctors;
     private int amountChefs;
     private int amountBuilders;
@@ -28,6 +30,7 @@ public class World {
         houseArrayList = new ArrayList<>();
         vehicleArrayList = new ArrayList<>();
         personArrayList = new ArrayList<>();
+        amountPeople = 0;
         amountDoctors = 0;
         amountChefs = 0;
         amountBuilders = 0;
@@ -46,6 +49,7 @@ public class World {
     public void createDoctor(int id, String name, String lastName, String specialization) throws Exception {
         if (areThereTreesAvailable()) {
             personArrayList.add(new Doctor(id, name, lastName, specialization));
+            amountPeople++;
             amountDoctors++;
         } else {
             if (!areThereTreesAvailable()) {
@@ -58,6 +62,7 @@ public class World {
         //TODO - validar recetas falta.
         if (woods.areThereTreesAvailable(personArrayList.size())) {
             personArrayList.add(new Chef(id, name, lastName, recipes));
+            amountPeople++;
             amountChefs++;
         }
     }
@@ -66,6 +71,7 @@ public class World {
 
         if (areThereTreesAvailable() && amountBuilders < amountChefs * 2) {
             personArrayList.add(new Builder(id, name.trim(), lastName.trim()));
+            amountPeople++;
             amountBuilders++;
         } else {
             if (!areThereTreesAvailable()) {
@@ -83,6 +89,7 @@ public class World {
         //For each blacksmith there must be 0.5 doctors, this means that in order to create a blacksmith you must create two doctors.
         if (areThereTreesAvailable() && amountBlacksmiths < amountDoctors * 2) {
             personArrayList.add(new Blacksmith(id, name.trim(), lastName.trim()));
+            amountPeople++;
             amountBlacksmiths++;
         } else {
             if (!areThereTreesAvailable()) {
@@ -97,6 +104,7 @@ public class World {
     public void createCarpenter(int id, String name, String lastName) throws Exception {
         if (areThereTreesAvailable() && amountCarpenters < amountDoctors) {
             personArrayList.add(new Carpenter(id, name.trim(), lastName.trim()));
+            amountPeople++;
             amountCarpenters++;
         } else {
             if (!areThereTreesAvailable()) {
@@ -124,7 +132,7 @@ public class World {
                 }
             }
             houseArrayList.add(new House(buyer));
-            //TODO -  se pagan los importos al gobierno por la creacion de la casa
+            //TODO -  se pagan los impuestos al gobierno por la creacion de la casa
             government.depositTaxes(10);
             amountHouses++;
         }
@@ -161,6 +169,14 @@ public class World {
             stringOfPeople = stringOfPeople + person.getPersonInfo() + "\n";
         }
         return stringOfPeople;
+    }
+
+    public String getPeopleStatistics() {
+        String peopleStatistics = "";
+        for (Person person : personArrayList){
+            peopleStatistics = peopleStatistics + person.getPersonStatistics() + "\n";
+        }
+        return peopleStatistics;
     }
 
     public String getDoctors() {
@@ -281,12 +297,22 @@ public class World {
         return null;
     }
     //TODO - IMPRIMIR ESTADISTICAS DEL MUNDO
-    // String getStatistics(  ) {}
-    public void printStactistics(){
-        ///  TODO -----
+    public String getStatistics() {
+        return "\t\t\t\"World's Name:" + worldName +
+                getPeopleStatistics() +
+                "Trees: " + woods.getTrees() + "\n" +
+                "Government Income: " + government.getIncome() + "\n" +
+                // TODO --personas muertas
+                // TODO DIENRO TOTAL DEL MMUNDO
+                "Total Objects: " + getTotalObjects() + "\n" +
+                "Total Operations: " + operationController.getNumOfOperations();
 
     }
 
+    public int getTotalObjects(){
+        return amountVehicle + amountHouses + amountPeople ;
+
+    }
 
     //Methods to delete the different people according to their roles.
     public void deleteDoctor(Doctor doctor) {
@@ -345,7 +371,7 @@ public class World {
     }
 
     //Methods to drive the vehicles
-    //TODO
+
 
     public void driveBicycle(int bicycleID) {
         //Method that throws Exceptions.

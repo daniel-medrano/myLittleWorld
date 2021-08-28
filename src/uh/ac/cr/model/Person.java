@@ -71,6 +71,33 @@ public abstract class Person implements MoneyLender{
         }
     }
 
+    public void increaseCars() {
+        this.cars++;
+    }
+    public void increaseHouses (){
+        this.houses++;
+    }
+
+    // TODO falta prestamo
+    public String getPersonStatistics() {
+        return "Name: " + name + "\n" +
+                "Income: " + income + "\n"+
+                "Cars: " + cars + "\n" +
+                "Houses: " + houses  + "\n";
+    }
+
+    /*
+    *
+    * name: name
+    * income: income
+    * cars: cars
+    *
+    *
+    *
+    *
+    * */
+
+
     public abstract String getPerson();
 
     public String getPersonInfo() {

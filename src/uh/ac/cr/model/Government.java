@@ -34,4 +34,8 @@ public class Government implements MoneyLender {
     public void lendMoney() {
 
     }
+
+    public double getIncome() {
+        return income;
+    }
 }

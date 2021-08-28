@@ -1,14 +1,25 @@
 "Data": [
-	"People": [
+
+	"personArrayList": [
 		"Doctor": {
-			"id": 1,
-			"name": "Daniel",
-			"lastName": "Medrano",
-			"income": 3.0,
+			"id": 123,
+			"name": "andrey",
+			"lastName": "vargas",
+			"income": 2.0,
+			"sick": false,
+			"dead": false
+		},
+		"Doctor": {
+			"id": 213,
+			"name": "bb",
+			"lastName": "bb",
+			"income": 1.0,
 			"sick": false,
 			"dead": false
 		}
 	]
-	"Vehicles": [
-	]
+
+
+
+
 ]
