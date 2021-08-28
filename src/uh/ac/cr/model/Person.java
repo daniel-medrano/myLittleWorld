@@ -7,6 +7,8 @@ public abstract class Person implements MoneyLender{
     protected double income;
     protected boolean sick;
     protected boolean dead;
+    protected int cars;
+    protected int houses;
 
     public Person(int id, String name, String lastName, double income) {
         this.id = id;
@@ -15,6 +17,8 @@ public abstract class Person implements MoneyLender{
         this.income = income;
         this.sick = false;
         this.dead = false;
+        this.cars = 0;
+        this.houses = 0;
     }
     //requisitos interface
 

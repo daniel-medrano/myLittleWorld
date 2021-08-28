@@ -6,6 +6,7 @@ import uh.ac.cr.util.OperationController;
 import java.util.ArrayList;
 
 public class World {
+    String worldName;
     //ArrayLists that contain all the objects, these lists take advantage of polymorphism. The personArrayList can contain doctors, blacksmiths, etc.
     ArrayList<House> houseArrayList;
     ArrayList<Vehicle> vehicleArrayList;
@@ -24,6 +25,7 @@ public class World {
     //Woods controls the amount of trees and everything that has something to do with it.
     private Woods woods;
     private Government government;
+    private OperationController operationController;
 
 
     public World() {
@@ -77,8 +79,12 @@ public class World {
             if (!areThereTreesAvailable()) {
                 throw new Exception("\nERROR: There are not enough trees per person. There must be at least " + getTreesAvailable() + "more.\n");
             } else {
-                if (!(amountBuilders < amountChefs * 2)) {
+                if (!(amountBuilders < amountChefs * 2 && amountBuilders < amountDoctors * 2)) {
+                    throw new Exception("\nERROR: You must create a chef and a doctor to create a builder.\n");
+                } else if (!(amountBuilders < amountChefs * 2)) {
                     throw new Exception("\nERROR: You must create a chef to create a builder.\n");
+                } else if (!(amountBuilders < amountDoctors * 2)) {
+                    throw new Exception("\nERROR: You must create a doctor to create a builder.\n");
 
                 }
             }
@@ -118,9 +124,12 @@ public class World {
     //Methods to create the vehicles and the house.
     //TODO - Validate jf the person has the money in menu.
 
-    public void createHouse(Person buyer, Person[] houseCreators) {
+    public void createHouse(int buyerID, Person[] houseCreators) {
+        //TODO - move this to menu.
         if (amountCarpenters >= 2 && amountBuilders >= 3 && amountBlacksmiths >= 1) {
+            Person buyer = getPersonByID(buyerID);
             buyer.withdrawMoney(27);
+            buyer.increaseHouses();
             //Pays the amount of money to each person
             for (Person person : houseCreators) {
                 if (person instanceof Carpenter) {
@@ -193,6 +202,26 @@ public class World {
         String stringOfPeople = "";
         for (Person person : personArrayList) {
             if (person instanceof Carpenter) {
+                stringOfPeople = stringOfPeople + person.getPersonInfo() + "\n";
+            }
+        }
+        return stringOfPeople;
+    }
+
+    public String getCarpenters(Carpenter carpenter) {
+        String stringOfPeople = "";
+        for (Person person : personArrayList) {
+            if (person instanceof Carpenter && person != carpenter) {
+                stringOfPeople = stringOfPeople + person.getPersonInfo() + "\n";
+            }
+        }
+        return stringOfPeople;
+    }
+
+    public String getBuilder() {
+        String stringOfPeople = "";
+        for (Person person : personArrayList) {
+            if (person instanceof Builder ) {
                 stringOfPeople = stringOfPeople + person.getPersonInfo() + "\n";
             }
         }
@@ -356,6 +385,7 @@ public class World {
 
         if (buyer.hasMoney(bicycle.getPriceVehicle())) {
             buyer.withdrawMoney(bicycle.getPriceVehicle());
+            buyer.increaseCars();
             bicycle.setOwner(buyer);
         }
     }
@@ -366,6 +396,7 @@ public class World {
 
         if (buyer.hasMoney(car.getPriceVehicle())) {
             buyer.withdrawMoney(car.getPriceVehicle());
+            buyer.increaseCars();
             car.setOwner(buyer);
         }
     }
@@ -461,9 +492,14 @@ public class World {
         government.withdrawMoney(0.5);
     }
 
+    public void setWorldName(String name) {
+        this.worldName =name;
+    }
+
     public Woods getWoods() {
         return woods;
     }
+
 
     public int getTreesAvailable() {
         return woods.getTreesAvailable(personArrayList.size());
@@ -471,6 +507,10 @@ public class World {
 
     public boolean areThereTreesAvailable() {
         return woods.areThereTreesAvailable(personArrayList.size());
+    }
+
+    public void setOperationController(OperationController operationController) {
+        this.operationController = operationController;
     }
 
     public String getData() {

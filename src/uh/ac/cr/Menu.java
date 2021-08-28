@@ -2,6 +2,7 @@ package uh.ac.cr;
 
 import uh.ac.cr.manager.World;
 import uh.ac.cr.model.Bicycle;
+import uh.ac.cr.model.Carpenter;
 import uh.ac.cr.model.Person;
 import uh.ac.cr.util.FileManager;
 import uh.ac.cr.util.OperationController;
@@ -25,6 +26,8 @@ public class Menu {
         operationController = new OperationController(world);
         scanner = new Scanner(System.in);
 
+        world.setOperationController(operationController);
+
     }
 
     public void save() {
@@ -43,6 +46,7 @@ public class Menu {
     public void startNewWorld(String nameWorld) {
         try {
             fileManager.createWorld(nameWorld);
+            world.setWorldName(nameWorld);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,6 +56,7 @@ public class Menu {
     public void loadWorld(String nameWorld) {
         try {
             fileManager.load(nameWorld, world, operationController);
+            world.setWorldName(nameWorld);
         } catch (FileNotFoundException e) {
             System.err.println("\nERROR: The world was not found.\n");
         }
@@ -190,6 +195,7 @@ public class Menu {
     }
 
     public void createBuilder() {
+
         ready = false;
         int builderID = 0;
         do {
@@ -340,12 +346,13 @@ public class Menu {
         operationController.increaseNumOfOperations();
     }
      public void buildHouse () {
+        //2 carpenters, 3 builder, 1 blacksmith
         //TODO . FINISH --------------------------------------------------------------------------
          ready = false;
          int buyerID = 0;
          do {
              try {
-                 System.out.println("Insert the buyer of the house.. Insert \"Cancel\" if don't want to continue.");
+                 System.out.println("Insert the buyer of the house. Insert \"Cancel\" if don't want to continue.");
                  System.out.println(world.getPeople());
                  input = scanner.next();
                  scanner.nextLine();
@@ -359,7 +366,7 @@ public class Menu {
                      if (world.existsPerson(buyerID)) {
                          ready = true;
                      } else {
-                         System.err.println("\nERROR: There is not already a person with this ID.\n");
+                         System.err.println("\nERROR: There is not a person with this ID.\n");
                      }
                  }
              } catch (NumberFormatException e) {
