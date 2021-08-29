@@ -48,77 +48,41 @@ public class World {
 
     //PEOPLE
     //Methods to create the different people according to their roles.
-    public void createDoctor(int id, String name, String lastName, String specialization) throws Exception {
-        if (areThereTreesAvailable()) {
-            personArrayList.add(new Doctor(id, name, lastName, specialization));
-            amountPeople++;
-            amountDoctors++;
-        } else {
-            if (!areThereTreesAvailable()) {
-                throw new Exception("\nERROR: There are not enough trees per person. There must be at least " + getTreesAvailable() + "more.\n");
-            }
-        }
+    public boolean createDoctor(int id, String name, String lastName, String specialization) {
+        personArrayList.add(new Doctor(id, name, lastName, specialization));
+        amountPeople++;
+        amountDoctors++;
+        return true;
     }
 
-    public void createChef(int id, String name, String lastName, ArrayList<String> recipes) {
+    public boolean createChef(int id, String name, String lastName, ArrayList<String> recipes) {
         //TODO - validar recetas falta.
-        if (woods.areThereTreesAvailable(personArrayList.size())) {
-            personArrayList.add(new Chef(id, name, lastName, recipes));
-            amountPeople++;
-            amountChefs++;
-        }
+        personArrayList.add(new Chef(id, name, lastName, recipes));
+        amountPeople++;
+        amountChefs++;
+        return true;
     }
 
-    public void createBuilder(int id, String name, String lastName) throws Exception {
-
-        if (areThereTreesAvailable() && amountBuilders < amountChefs * 2 && amountBuilders < amountDoctors * 2) {
-            personArrayList.add(new Builder(id, name.trim(), lastName.trim()));
-            amountPeople++;
-            amountBuilders++;
-        } else {
-            if (!areThereTreesAvailable()) {
-                throw new Exception("\nERROR: There are not enough trees per person. There must be at least " + getTreesAvailable() + "more.\n");
-            } else {
-                if (!(amountBuilders < amountChefs * 2 && amountBuilders < amountDoctors * 2)) {
-                    throw new Exception("\nERROR: You must create a chef and a doctor to create a builder.\n");
-                } else if (!(amountBuilders < amountChefs * 2)) {
-                    throw new Exception("\nERROR: You must create a chef to create a builder.\n");
-                } else if (!(amountBuilders < amountDoctors * 2)) {
-                    throw new Exception("\nERROR: You must create a doctor to create a builder.\n");
-
-                }
-            }
-        }
+    public boolean createBuilder(int id, String name, String lastName) {
+        personArrayList.add(new Builder(id, name.trim(), lastName.trim()));
+        amountPeople++;
+        amountBuilders++;
+        return true;
     }
 
-    public void createBlacksmith(int id, String name, String lastName) throws Exception {
+    public boolean createBlacksmith(int id, String name, String lastName) {
         //For each blacksmith there must be 0.5 doctors, this means that in order to create a blacksmith you must create two doctors.
-        if (areThereTreesAvailable() && amountBlacksmiths < amountDoctors * 2) {
-            personArrayList.add(new Blacksmith(id, name.trim(), lastName.trim()));
-            amountPeople++;
-            amountBlacksmiths++;
-        } else {
-            if (!areThereTreesAvailable()) {
-                throw new Exception("\nERROR: There are not enough trees per person. There must be at least " + woods.getTreesAvailable(personArrayList.size()) + " more.\n");
-            } else if (!(amountBlacksmiths < amountDoctors * 2)) {
-                throw new Exception("\nERROR: You must create a doctor in order to create two blacksmiths more.\n");
-            }
-        }
-
+        personArrayList.add(new Blacksmith(id, name.trim(), lastName.trim()));
+        amountPeople++;
+        amountBlacksmiths++;
+        return true;
     }
 
-    public void createCarpenter(int id, String name, String lastName) throws Exception {
-        if (areThereTreesAvailable() && amountCarpenters < amountDoctors) {
-            personArrayList.add(new Carpenter(id, name.trim(), lastName.trim()));
-            amountPeople++;
-            amountCarpenters++;
-        } else {
-            if (!areThereTreesAvailable()) {
-                throw new Exception("\nERROR: There are not enough trees per person. There must be at least " + woods.getTreesAvailable(personArrayList.size()) + " more.\n");
-            } else if (!(amountCarpenters < amountDoctors)) {
-                throw new Exception("\nERROR: You must create another doctor in order to create another blacksmith.\n");
-            }
-        }
+    public boolean createCarpenter(int id, String name, String lastName)  {
+        personArrayList.add(new Carpenter(id, name.trim(), lastName.trim()));
+        amountPeople++;
+        amountCarpenters++;
+        return true;
     }
     //BELONGINGS
     //Methods to create the vehicles and the house.
@@ -208,7 +172,7 @@ public class World {
         return stringOfPeople;
     }
 
-    public String getCarpenters(Carpenter carpenter) {
+    public String getCarpenters(Person carpenter) {
         String stringOfPeople = "";
         for (Person person : personArrayList) {
             if (person instanceof Carpenter && person != carpenter) {
@@ -218,11 +182,38 @@ public class World {
         return stringOfPeople;
     }
 
-    public String getBuilder() {
+    public String getBuilders() {
         String stringOfPeople = "";
         for (Person person : personArrayList) {
             if (person instanceof Builder ) {
                 stringOfPeople = stringOfPeople + person.getPersonInfo() + "\n";
+            }
+        }
+        return stringOfPeople;
+    }
+
+    public String getBuilders(Person... builders) {
+        //List with builder that will be excluded from the string that will have the list of them.
+        Person[] buildersExcluded = builders;
+        String stringOfPeople = "";
+        boolean ignore;
+        //It iterates through the list looking for builders.
+        for (Person person : personArrayList) {
+            //The var ignore is set to false for every person.
+            ignore = false;
+            //Verifies if it is a builder.
+            if (person instanceof Builder ) {
+                //Iterates through the builder that should be excluded.
+                for (Person builder : buildersExcluded) {
+                    //If there is a match with one of the people that should be excluded, the var ignore is set to true.
+                    if (person == builder) {
+                        ignore = true;
+                    }
+                }
+                //If ignore is true, the builder won't be added.
+                if (!ignore) {
+                    stringOfPeople = stringOfPeople + person.getPersonInfo() + "\n";
+                }
             }
         }
         return stringOfPeople;
@@ -343,36 +334,14 @@ public class World {
 
     }
 
+
     //Methods to delete the different people according to their roles.
-    public void deleteDoctor(Doctor doctor) {
-        if (isPersonInList(doctor)) {
-            personArrayList.remove(personArrayList.indexOf(doctor));
+    public void deletePerson(Person person) {
+        if (isPersonInList(person)) {
+            personArrayList.remove(person);
         }
     }
 
-    public void deleteChef(Chef chef) {
-        if (isPersonInList(chef)) {
-            personArrayList.remove(personArrayList.indexOf(chef));
-        }
-    }
-
-    public void deleteBuilder(Builder builder) {
-        if (isPersonInList(builder)) {
-            personArrayList.remove(personArrayList.indexOf(builder));
-        }
-    }
-
-    public void deleteBlacksmith(Blacksmith blacksmith) {
-        if (isPersonInList(blacksmith)) {
-            personArrayList.remove(personArrayList.indexOf(blacksmith));
-        }
-    }
-
-    public void deleteCarpenter(Carpenter carpenter) {
-        if (isPersonInList(carpenter)) {
-            personArrayList.remove(personArrayList.indexOf(carpenter));
-        }
-    }
 
 
     //Methods to buy the vehicles
@@ -488,8 +457,9 @@ public class World {
     }
 
     public void plantTree() {
-        woods.increaseTrees();
-        government.withdrawMoney(0.5);
+        if (government.withdrawMoney(0.5)) {
+            woods.increaseTrees();
+        }
     }
 
     public void setWorldName(String name) {
@@ -499,7 +469,6 @@ public class World {
     public Woods getWoods() {
         return woods;
     }
-
 
     public int getTreesAvailable() {
         return woods.getTreesAvailable(personArrayList.size());
@@ -511,6 +480,38 @@ public class World {
 
     public void setOperationController(OperationController operationController) {
         this.operationController = operationController;
+    }
+
+    //METHODS.
+    public boolean isBuilderConditionMet() throws Exception {
+        if (!(amountBuilders < amountChefs * 2) && !(amountBuilders < amountDoctors * 2)) {
+            throw new Exception("\nERROR: You must create a chef and a doctor to create a builder.\n");
+
+        } else if (!(amountBuilders < amountChefs * 2)) {
+            throw new Exception("\nERROR: You must create a chef to create a builder.\n");
+
+        } else if (!(amountBuilders < amountDoctors * 2)) {
+            throw new Exception("\nERROR: You must create a doctor to create a builder.\n");
+
+        } else {
+            return true;
+        }
+    }
+
+    public boolean isCarpenterConditionMet() throws Exception {
+        if (!(amountCarpenters < amountDoctors)) {
+            throw new Exception("\nERROR: You must create another doctor in order to create another carpenter.\n");
+        } else {
+            return true;
+        }
+    }
+
+    public boolean isBlacksmithConditionMet() throws Exception {
+        if (!(amountBlacksmiths < amountDoctors * 2)) {
+            throw new Exception("\nERROR: You must create a doctor in order to create two blacksmiths more.\n");
+        } else {
+            return true;
+        }
     }
 
     public String getData() {

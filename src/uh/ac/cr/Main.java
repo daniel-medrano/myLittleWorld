@@ -16,8 +16,9 @@ public class Main {
 
         while(exit) {
             System.out.println("\n---------------------------------------------------------------------\n");
+            menu.displayData();
             command = scanner.nextLine();
-
+            command = command.trim();
 
             String[] commandList = command.split(" ");
             if (commandList.length == 4 && commandList[0].equals("start") && commandList[1].equals("new") && commandList[2].equals("world")) {
@@ -51,7 +52,7 @@ public class Main {
                     case "build house":
                         menu.buildHouse();
                         break;
-                    case "plant tree ":
+                    case "plant tree":
                         menu.plantTree();
                         break;
                     case "build bicycle":
@@ -82,7 +83,6 @@ public class Main {
                         System.err.println("\nERROR: Not a valid command. In case you need help, type \"help\".\n");
                         break;
                 }
-                menu.verify();
             }
         }
     }

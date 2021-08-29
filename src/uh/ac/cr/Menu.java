@@ -9,6 +9,7 @@ import uh.ac.cr.util.OperationController;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Menu {
@@ -30,6 +31,10 @@ public class Menu {
 
     }
 
+    public void displayData() {
+        System.out.println("Operations performed: " + operationController.getNumOfOperations());
+    }
+
     public void save() {
         try {
             fileManager.save(world.getData());
@@ -38,7 +43,8 @@ public class Menu {
         }
     }
 
-    public void verify() {
+    public void increaseOperations() {
+        operationController.increaseNumOfOperations();
         operationController.checkNumOfOperations(world.getPersonArrayList(), world.getWoods());
         operationController.checkNumOfCreations();
     }
@@ -50,7 +56,6 @@ public class Menu {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        operationController.increaseNumOfOperations();
     }
 
     public void loadWorld(String nameWorld) {
@@ -60,7 +65,6 @@ public class Menu {
         } catch (FileNotFoundException e) {
             System.err.println("\nERROR: The world was not found.\n");
         }
-        operationController.increaseNumOfOperations();
     }
 
     public void help() {
@@ -86,31 +90,29 @@ public class Menu {
     }
 
     public void createDoctor() {
+        if (!world.areThereTreesAvailable()) {
+            System.err.println("\nERROR: There are not enough trees per person. There must be at least " + world.getTreesAvailable() + " more.\n");
+            return;
+        }
+        //Asks for the ID.
         ready = false;
         int doctorID = 0;
         do {
-            try {
-                System.out.println("Insert the ID of the doctor. Insert \"Cancel\" if don't want to continue.");
-                input = scanner.next();
-                scanner.nextLine();
+            System.out.println("Insert the ID of the doctor. Insert \"Cancel\" if don't want to continue.");
+            input = scanner.next();
+            scanner.nextLine();
 
-                if (input.equals("Cancel")) {
-                    System.out.println("\nDONE: The operation has been canceled.\n");
-                    //Exits the operation.
-                    return;
-                } else {
-                    doctorID = Integer.parseInt(input);
-                    if (!world.existsPerson(doctorID)) {
-                        ready = true;
-                    } else {
-                        System.err.println("\nERROR: There is already a doctor with this ID.\n");
-                    }
-                }
-            } catch (NumberFormatException e) {
-                System.err.println("\nERROR: The ID must be a number.\n");
+            if (input.equals("Cancel")) {
+                System.out.println("\nDONE: The operation has been canceled.\n");
+                //Exits the operation.
+                return;
+            }
+            ready = verifyPersonID(input);
+            if (ready) {
+                doctorID = Integer.parseInt(input);
             }
         } while (!ready);
-
+        //Asks for the name.
         System.out.println("Insert the name of the doctor. Insert \"Cancel\" if don't want to continue.");
         String doctorName = scanner.nextLine();
         if (doctorName.equals("Cancel")) {
@@ -118,6 +120,7 @@ public class Menu {
             //Exits the operation.
             return;
         }
+        //Asks for the last name.
         System.out.println("Insert the last name of the doctor. Insert \"Cancel\" if don't want to continue.");
         String doctorLastName = scanner.nextLine();
         if (doctorLastName.equals("Cancel")) {
@@ -125,6 +128,7 @@ public class Menu {
             //Exits the operation.
             return;
         }
+        //Asks for the specialization.
         System.out.println("Insert the specialization of the doctor. Insert \"Cancel\" if don't want to continue.");
         String doctorSpecialization = scanner.nextLine();
         if (doctorSpecialization.equals("Cancel")) {
@@ -132,92 +136,94 @@ public class Menu {
             //Exits the operation.
             return;
         }
-        try {
-            //TODO - Delete the verification of the ID from createDoctor, because that is already done when the ID is asked.
-            world.createDoctor(doctorID, doctorName, doctorLastName, doctorSpecialization);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        //Creates the doctor.
+        if (world.createDoctor(doctorID, doctorName, doctorLastName, doctorSpecialization)) {
+            System.out.println("\nDONE: The doctor has been created.\n");
+            increaseOperations();
         }
-        operationController.increaseNumOfOperations();
     }
 
     public void createChef() {
+
+        if (!world.areThereTreesAvailable()) {
+            System.err.println("\nERROR: There are not enough trees per person. There must be at least " + world.getTreesAvailable() + " more.\n");
+            return;
+        }
+        //Asks for the ID.
         ready = false;
         int chefID = 0;
         do {
-            try {
-                System.out.println("Insert the ID of the chef. Insert \"Cancel\" if don't want to continue.");
-                input = scanner.next();
-                scanner.nextLine();
+            System.out.println("Insert the ID of the chef. Insert \"Cancel\" if don't want to continue.");
+            input = scanner.next();
+            scanner.nextLine();
 
-                if (input.equals("Cancel")) {
-                    System.out.println("\nDONE: The operation has been canceled.\n");
-                    //Exits the operation.
-                    return;
-                } else {
-                    chefID = Integer.parseInt(input);
-                    if (!world.existsPerson(chefID)) {
-                        ready = true;
-                    } else {
-                        System.err.println("\nERROR: There is already a chef with this ID.\n");
-                    }
-                }
-            } catch (NumberFormatException e) {
-                System.err.println("\nERROR: The ID must be a number.\n");
+            if (input.equals("Cancel")) {
+                System.out.println("\nDONE: The operation has been canceled.\n");
+                //Exits the operation.
+                return;
+            }
+            ready = verifyPersonID(input);
+            if (ready) {
+                chefID = Integer.parseInt(input);
             }
         } while (!ready);
-
-
-
-        System.out.println("Insert the name of the chef:");
+        //Asks for the name.
+        System.out.println("Insert the name of the chef. Insert \"Cancel\" if don't want to continue.");
         String chefName = scanner.nextLine();
         if (chefName.equals("Cancel")) {
             System.out.println("\nDONE: The operation has been canceled.\n");
             //Exits the operation.
             return;
         }
-        System.out.println("Insert the last name of the chef:");
+        //Asks for the last name.
+        System.out.println("Insert the last name of the chef. Insert \"Cancel\" if don't want to continue.");
         String chefLastName = scanner.nextLine();
         if (chefLastName.equals("Cancel")) {
             System.out.println("\nDONE: The operation has been canceled.\n");
             //Exits the operation.
             return;
         }
-
-        // TODO REVISAR
-        System.out.println("Insert the recipes of the chef:");
-        String chefRecipes = scanner.nextLine();
-
-        //world.createChef(chefID,chefName,chefLastName,chefRecipes);
-
-
-        operationController.increaseNumOfOperations();
+        //Asks for the recipes.
+        ArrayList<String> recipes = new ArrayList<>();
+        System.out.println("Insert 10 recipes of the chef or less. Insert \"Ready\" if you are done.");
+        int recipesCounter = 1;
+        do {
+            System.out.println("Insert the recipe #" + recipesCounter + ": ");
+            input = scanner.nextLine();
+            recipes.add(input);
+            recipesCounter++;
+        } while (!input.equals("Ready") && recipes.size() <= 10);
+        //Creates the chef.
+        if (world.createChef(chefID,chefName,chefLastName, recipes)) {
+            System.out.println("\nDONE: The chef has been created.\n");
+            increaseOperations();
+        }
     }
 
     public void createBuilder() {
 
+        if (!world.areThereTreesAvailable()) {
+            System.err.println("\nERROR: There are not enough trees per person. There must be at least " + world.getTreesAvailable() + " more.\n");
+            return;
+        } else if (!isBuilderConditionMet()) {
+            return;
+        }
+
         ready = false;
         int builderID = 0;
         do {
-            try {
-                System.out.println("Insert the ID of the builder. Insert \"Cancel\" if don't want to continue.");
-                input = scanner.next();
-                scanner.nextLine();
+            System.out.println("Insert the ID of the builder. Insert \"Cancel\" if don't want to continue.");
+            input = scanner.next();
+            scanner.nextLine();
 
-                if (input.equals("Cancel")) {
-                    System.out.println("\nDONE: The operation has been canceled.\n");
-                    //Exits the operation.
-                    return;
-                } else {
-                    builderID = Integer.parseInt(input);
-                    if (!world.existsPerson(builderID)) {
-                        ready = true;
-                    } else {
-                        System.err.println("\nERROR: There is already a builder with this ID.\n");
-                    }
-                }
-            } catch (NumberFormatException e) {
-                System.err.println("\nERROR: The ID must be a number.\n");
+            if (input.equals("Cancel")) {
+                System.out.println("\nDONE: The operation has been canceled.\n");
+                //Exits the operation.
+                return;
+            }
+            ready = verifyPersonID(input);
+            if (ready) {
+                builderID = Integer.parseInt(input);
             }
         } while (!ready);
 
@@ -236,41 +242,38 @@ public class Menu {
             return;
         }
 
-        try {
-            world.createBuilder(builderID, builderName, builderLastName);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        if (world.createBuilder(builderID, builderName, builderLastName)) {
+            System.out.println("\nDONE: The builder has been created.\n");
+            increaseOperations();
         }
-
-        operationController.increaseNumOfOperations();
     }
 
     public void createBlacksmith() {
+
+        if (!world.areThereTreesAvailable()) {
+            System.err.println("\nERROR: There are not enough trees per person. There must be at least " + world.getTreesAvailable() + " more.\n");
+            return;
+        } else if (!isBlacksmithConditionMet()) {
+            return;
+        }
+
         ready = false;
         int blacksmithID = 0;
         do {
-            try {
-                System.out.println("Insert the ID of the blacksmith. Insert \"Cancel\" if don't want to continue.");
-                input = scanner.next();
-                scanner.nextLine();
+            System.out.println("Insert the ID of the blacksmith. Insert \"Cancel\" if don't want to continue.");
+            input = scanner.next();
+            scanner.nextLine();
 
-                if (input.equals("Cancel")) {
-                    System.out.println("\nDONE: The operation has been canceled.\n");
-                    //Exits the operation.
-                    return;
-                } else {
-                   blacksmithID = Integer.parseInt(input);
-                    if (!world.existsPerson(blacksmithID)) {
-                        ready = true;
-                    } else {
-                        System.err.println("\nERROR: There is already a blacksmith with this ID.\n");
-                    }
-                }
-            } catch (NumberFormatException e) {
-                System.err.println("\nERROR: The ID must be a number.\n");
+            if (input.equals("Cancel")) {
+                System.out.println("\nDONE: The operation has been canceled.\n");
+                //Exits the operation.
+                return;
+            }
+            ready = verifyPersonID(input);
+            if (ready) {
+                blacksmithID = Integer.parseInt(input);
             }
         } while (!ready);
-
 
         System.out.println("Insert the name of the blacksmith:");
         String blacksmithName = scanner.nextLine();
@@ -287,40 +290,38 @@ public class Menu {
             return;
         }
 
-        try {
-            world.createBlacksmith(blacksmithID, blacksmithName, blacksmithLastName);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        if (world.createBlacksmith(blacksmithID, blacksmithName, blacksmithLastName)) {
+            System.out.println("\nDONE: The blacksmith has been created.\n");
+            increaseOperations();
         }
-        operationController.increaseNumOfOperations();
     }
 
     public void createCarpenter() {
+
+        if (!world.areThereTreesAvailable()) {
+            System.err.println("\nERROR: There are not enough trees per person. There must be at least " + world.getTreesAvailable() + " more.\n");
+            return;
+        } else if (!isCarpenterConditionMet()) {
+            return;
+        }
+
         ready = false;
         int carpenterID = 0;
         do {
-            try {
-                System.out.println("Insert the ID of the carpenter. Insert \"Cancel\" if don't want to continue.");
-                input = scanner.next();
-                scanner.nextLine();
+            System.out.println("Insert the ID of the carpenter. Insert \"Cancel\" if don't want to continue.");
+            input = scanner.next();
+            scanner.nextLine();
 
-                if (input.equals("Cancel")) {
-                    System.out.println("\nDONE: The operation has been canceled.\n");
-                    //Exits the operation.
-                    return;
-                } else {
-                    carpenterID = Integer.parseInt(input);
-                    if (!world.existsPerson(carpenterID)) {
-                        ready = true;
-                    } else {
-                        System.err.println("\nERROR: There is already a carpenter with this ID.\n");
-                    }
-                }
-            } catch (NumberFormatException e) {
-                System.err.println("\nERROR: The ID must be a number.\n");
+            if (input.equals("Cancel")) {
+                System.out.println("\nDONE: The operation has been canceled.\n");
+                //Exits the operation.
+                return;
+            }
+            ready = verifyPersonID(input);
+            if (ready) {
+                carpenterID = Integer.parseInt(input);
             }
         } while (!ready);
-
 
         System.out.println("Insert the name of the carpenter");
         String carpenterName = scanner.nextLine();
@@ -337,13 +338,11 @@ public class Menu {
             return;
         }
 
-        try {
-            world.createCarpenter(carpenterID, carpenterName, carpenterLastname);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+        if (world.createCarpenter(carpenterID, carpenterName, carpenterLastname)) {
+            System.out.println("\nDONE: The carpenter has been created.\n");
+            increaseOperations();
         }
 
-        operationController.increaseNumOfOperations();
     }
      public void buildHouse () {
         //2 carpenters, 3 builder, 1 blacksmith
@@ -351,26 +350,20 @@ public class Menu {
          ready = false;
          int buyerID = 0;
          do {
-             try {
-                 System.out.println("Insert the buyer of the house. Insert \"Cancel\" if don't want to continue.");
-                 System.out.println(world.getPeople());
-                 input = scanner.next();
-                 scanner.nextLine();
+             System.out.println("Insert the buyer of the house. Insert \"Cancel\" if don't want to continue.");
+             System.out.println(world.getPeople());
+             input = scanner.next();
+             scanner.nextLine();
 
-                 if (input.equals("Cancel")) {
-                     System.out.println("\nDONE: The operation has been canceled.\n");
-                     //Exits the operation.
-                     return;
-                 } else {
-                     buyerID = Integer.parseInt(input);
-                     if (world.existsPerson(buyerID)) {
-                         ready = true;
-                     } else {
-                         System.err.println("\nERROR: There is not a person with this ID.\n");
-                     }
-                 }
-             } catch (NumberFormatException e) {
-                 System.err.println("\nERROR: The ID must be a number.\n");
+             if (input.equals("Cancel")) {
+                 System.out.println("\nDONE: The operation has been canceled.\n");
+                 //Exits the operation.
+                 return;
+             }
+
+             ready = verifyPersonID(input);
+             if (ready) {
+                 buyerID = Integer.parseInt(input);
              }
          } while (!ready);
         //TODO. TEST THISSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
@@ -384,7 +377,7 @@ public class Menu {
                      System.out.println(world.getCarpenters());
                  } else {
                      System.out.println("Insert the ID of the second carpenter. Insert \"Cancel\" if don't want to continue.");
-                     System.out.println(world.getCarpenters((Carpenter) creators[0]));
+                     System.out.println(world.getCarpenters(creators[0]));
                  }
                  input = scanner.next();
                  scanner.nextLine();
@@ -399,9 +392,13 @@ public class Menu {
                          if (creators[0] == null) {
                              creators[0] = world.getPersonByID(carpenterID);
                          } else if (creators[1] == null) {
-                             creators[1] = world.getPersonByID(carpenterID);
+                             Person person = world.getPersonByID(carpenterID);
+                             if (person != creators[0])
+                                creators[1] = person;
+                             else
+                                 System.err.println("\nERROR: You already chose a carpenter with this ID.");
                          }
-
+                         //If the carpenters exist and the user selected the two of them already.
                          if (creators[0] != null && creators[1] != null) {
                              ready = true;
                          }
@@ -425,21 +422,17 @@ public class Menu {
                  input = scanner.next();
                  scanner.nextLine();
 
-                 if (input.equals("Cancel")) {
-                     System.out.println("\nDONE: The operation has been canceled.\n");
-                     //Exits the operation.
-                     return;
-                 } else {
-                     blacksmithID = Integer.parseInt(input);
-                     if (world.existsPerson(blacksmithID)) {
-                         ready = true;
+             if (input.equals("Cancel")) {
+                 System.out.println("\nDONE: The operation has been canceled.\n");
+                 //Exits the operation.
+                 return;
+             }
 
-                     } else {
-                         System.err.println("\nERROR: There is not a blacksmith with this ID.\n");
-                     }
-                 }
-             } catch (NumberFormatException e) {
-                 System.err.println("\nERROR: The ID must be a number.\n");
+             ready = verifyPersonID(input);
+
+             if (ready) {
+                 blacksmithID = Integer.parseInt(input);
+                 creators[2] = world.getPersonByID(blacksmithID);
              }
          } while (!ready);
 
@@ -448,8 +441,16 @@ public class Menu {
          int builderID = 0;
          do {
              try {
-                 System.out.println("Insert the ID of the builder. Insert \"Cancel\" if don't want to continue.");
-                 System.out.println(world.getBuilder());
+                 if (creators[3] == null) {
+                     System.out.println("Insert the ID of the first builder. Insert \"Cancel\" if don't want to continue.");
+                     System.out.println(world.getBuilders());
+                 } else if (creators[4] == null){
+                     System.out.println("Insert the ID of the second builder. Insert \"Cancel\" if don't want to continue.");
+                     System.out.println(world.getBuilders(creators[3]));
+                 } else {
+                     System.out.println("Insert the ID of the third builder. Insert \"Cancel\" if don't want to continue.");
+                     System.out.println(world.getBuilders(creators[3], creators[4]));
+                 }
                  input = scanner.next();
                  scanner.nextLine();
 
@@ -459,10 +460,27 @@ public class Menu {
                      return;
                  } else {
                      builderID = Integer.parseInt(input);
-                     if (!world.existsPerson(builderID)) {
-                         ready = true;
+                     if (world.existsPerson(builderID)) {
+                         Person person = world.getPersonByID(builderID);
+                         if (creators[3] == null) {
+                             creators[3] = world.getPersonByID(builderID);
+                         } else if (creators[4] == null) {
+                             if (person != creators[3])
+                                creators[4] = person;
+                             else
+                                 System.err.println("\nERROR: You already chose a builder with this ID.");
+                         } else if (creators[5] == null) {
+                             if (person != creators[4] && person != creators[3])
+                                 creators[5] = person;
+                             else
+                                 System.err.println("\nERROR: You already chose a builder with this ID.");
+                         }
+
+                         if (creators[3] != null && creators[4] != null && creators[5] != null) {
+                             ready = true;
+                         }
                      } else {
-                         System.err.println("\nERROR: There is already a builder with this ID.\n");
+                         System.err.println("\nERROR: There is not a builder with this ID.\n");
                      }
                  }
              } catch (NumberFormatException e) {
@@ -472,6 +490,7 @@ public class Menu {
 
 
          world.createHouse(buyerID, creators);
+         increaseOperations();
      }
 
     public void plantTree() {
@@ -542,11 +561,11 @@ public class Menu {
 
         try {
             world.createBicycle(bicycleID, brandBicycle, blacksmithID);
+            increaseOperations();
+
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-        operationController.increaseNumOfOperations();
-        operationController.increaseNumOfCreations();
     }
 
     public void buyBicycle() {
@@ -605,7 +624,7 @@ public class Menu {
         } while (!ready);
 
         world.buyBicycle(buyerID, bicycleID);
-        operationController.increaseNumOfOperations();
+        increaseOperations();
     }
 
     public void driveBicycle() {
@@ -637,7 +656,7 @@ public class Menu {
 
         world.driveBicycle(bicycleWithOwnerID);
 
-        operationController.increaseNumOfOperations();
+        increaseOperations();
 
     }
 
@@ -730,7 +749,7 @@ public class Menu {
 
         world.createCar(carID,brandCar, doctorID, carpenterID);
         // Operation counters are increased.
-        operationController.increaseNumOfOperations();
+        increaseOperations();
         operationController.increaseNumOfCreations();
 
     }
@@ -788,8 +807,8 @@ public class Menu {
             }
         } while (!ready);
 
-         world.buyCar(buyerID, carID);
-        operationController.increaseNumOfOperations();
+        world.buyCar(buyerID, carID);
+        increaseOperations();
     }
 
 
@@ -821,15 +840,60 @@ public class Menu {
         } while (!ready);
 
         world.driveCar(carWithOwnerID);
-        operationController.increaseNumOfOperations();
+        increaseOperations();
     }
 
     public void requestLoan() {
-        operationController.increaseNumOfOperations();
+        increaseOperations();
     }
 
     public void printStatistics() {
-        world.getStatistics();
+        System.out.println(world.getStatistics());
 
     }
+
+
+    public boolean verifyPersonID(String input) {
+        int ID;
+        try {
+            ID = Integer.parseInt(input);
+            if (!world.existsPerson(ID)) {
+                return true;
+            } else {
+                System.err.println("\nERROR: There is already a person with this ID.\n");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            System.err.println("\nERROR: The ID must be a number.\n");
+            return false;
+        }
+    }
+
+    public boolean isBuilderConditionMet() {
+        try {
+            return world.isBuilderConditionMet();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isCarpenterConditionMet() {
+        try {
+            return world.isCarpenterConditionMet();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isBlacksmithConditionMet() {
+        try {
+            return world.isBlacksmithConditionMet();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
 }

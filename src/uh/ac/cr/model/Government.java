@@ -16,7 +16,7 @@ public class Government implements MoneyLender {
     public boolean withdrawMoney(double moneyToWithdraw) {
 
         // TODO ----- The amount of money that is gonna be taken away cannot be bigger than the actual income.
-        if (income - moneyToWithdraw == 0) {
+        if (income - moneyToWithdraw >= 0) {
             this.income = income - moneyToWithdraw;
             return true;
         }else {

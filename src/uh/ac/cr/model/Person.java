@@ -10,6 +10,9 @@ public abstract class Person implements MoneyLender{
     protected int cars;
     protected int houses;
 
+
+    protected ArrayList<Loan> loans;
+
     public Person(int id, String name, String lastName, double income) {
         this.id = id;
         this.name = name;
@@ -19,6 +22,7 @@ public abstract class Person implements MoneyLender{
         this.dead = false;
         this.cars = 0;
         this.houses = 0;
+        this.loans = new ArrayList<>();
     }
     //requisitos interface
 

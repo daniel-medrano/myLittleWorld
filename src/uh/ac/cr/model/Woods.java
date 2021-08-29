@@ -29,7 +29,7 @@ public class Woods {
             return true;
         } else {
             //For every person there should be 3 trees
-            return trees >= amountPeople * 3;
+            return trees - amountPeople * 3 >= 3;
         }
     }
 
