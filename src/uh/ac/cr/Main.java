@@ -14,7 +14,7 @@ public class Main {
 
         System.out.println("\n           Students: Andrey Vargas - Génesis Delgado - Daniel Medrano\n\n                             My Little World"  );
 
-        while(exit) {
+        while(exit && !menu.getGameOver()) {
             System.out.println("\n---------------------------------------------------------------------\n");
             menu.displayData();
             command = scanner.nextLine();
@@ -56,7 +56,7 @@ public class Main {
                         menu.plantTree();
                         break;
                     case "build bicycle":
-                        menu.buildBicycle();
+                        menu.createBicycle();
                         break;
                     case "buy bicycle":
                         menu.buyBicycle();
@@ -65,7 +65,7 @@ public class Main {
                         menu.driveBicycle();
                         break;
                     case "build car":
-                        menu.buildCar();
+                        menu.createCar();
                         break;
                     case "buy car":
                         menu.buyCar();
@@ -84,6 +84,9 @@ public class Main {
                         break;
                 }
             }
+        }
+        if (menu.getGameOver()) {
+            System.out.println("\n\nGAME OVER\n\n");
         }
     }
 }

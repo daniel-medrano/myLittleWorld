@@ -21,6 +21,7 @@ public class Menu {
     boolean ready;
     String input;
 
+
     public Menu() {
         world = new World();
         fileManager = new FileManager();
@@ -43,9 +44,14 @@ public class Menu {
         }
     }
 
+    public boolean getGameOver() {
+        return world.gameOver;
+    }
+
     public void increaseOperations() {
         operationController.increaseNumOfOperations();
-        operationController.checkNumOfOperations(world.getPersonArrayList(), world.getWoods());
+        operationController.increaseLoansCounter();
+        operationController.checkNumOfOperations(world.getPersonArrayList());
         operationController.checkNumOfCreations();
     }
 
@@ -346,6 +352,10 @@ public class Menu {
     }
      public void buildHouse () {
         //2 carpenters, 3 builder, 1 blacksmith
+
+         if (!isHouseConditionMet()) {
+             return;
+         }
         //TODO . FINISH --------------------------------------------------------------------------
          ready = false;
          int buyerID = 0;
@@ -488,18 +498,29 @@ public class Menu {
              }
          } while (!ready);
 
-
-         world.createHouse(buyerID, creators);
-         increaseOperations();
+         if (world.createHouse(buyerID, creators)) {
+             System.out.println("\nDONE: The house has been created.\n");
+             increaseOperations();
+             operationController.checkNumOfCreations();
+         }
      }
 
     public void plantTree() {
-        world.plantTree();
-        operationController.increaseNumOfOperations();
+        if (world.plantTree()) {
+            System.out.println("\nDONE: The tree has been planted.\n");
+            increaseOperations();
 
+        } else {
+            System.err.println("\nERROR: The tree couldn't be created because the government doesn't have enough money.\n");
+        }
     }
 
-    public void buildBicycle() {
+    public void createBicycle() {
+        //Verifies condition.
+        if (!isBicycleConditionMet()) {
+            return;
+        }
+        //Asks for the ID.
         ready = false;
         int bicycleID = 0;
         do {
@@ -524,7 +545,7 @@ public class Menu {
                 System.err.println("\nERROR: The ID must be a number.\n");
             }
         } while (!ready);
-
+        //Asks for the brand.
         System.out.println("What is the brand of the bicycle.");
         String brandBicycle = scanner.nextLine();
         if (brandBicycle.equals("Cancel")) {
@@ -532,7 +553,7 @@ public class Menu {
             //Exits the operation.
             return;
         }
-
+        //Asks for the blacksmith.
         ready = false;
         int blacksmithID = 0;
         do {
@@ -558,13 +579,11 @@ public class Menu {
                 System.err.println("\nERROR: The ID must be a number.\n");
             }
         } while (!ready);
-
-        try {
-            world.createBicycle(bicycleID, brandBicycle, blacksmithID);
+        //Creates the bicycle.
+        if (world.createBicycle(bicycleID, brandBicycle, blacksmithID)) {
+            System.out.println("\nDONE: The bicycle has been created.\n");
             increaseOperations();
-
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+            operationController.checkNumOfCreations();
         }
     }
 
@@ -660,30 +679,29 @@ public class Menu {
 
     }
 
-    public void buildCar() {
+    public void createCar() {
+
+        if (!isCarConditionMet()) {
+            return;
+        }
 
         ready = false;
         int carID = 0;
         do {
-            try {
-                System.out.println("Insert the ID of the car. Insert \"Cancel\" if don't want to continue.");
-                input = scanner.next();
-                scanner.nextLine();
+            System.out.println("Insert the ID of the car. Insert \"Cancel\" if don't want to continue.");
+            input = scanner.next();
+            scanner.nextLine();
 
-                if (input.equals("Cancel")) {
-                    System.out.println("\nDONE: The operation has been canceled.\n");
-                    //Exits the operation.
-                    return;
-                } else {
-                    carID = Integer.parseInt(input);
-                    if (!world.existsVehicle(carID)) {
-                        ready = true;
-                    } else {
-                        System.err.println("\nERROR: There is already a car with this ID.\n");
-                    }
-                }
-            } catch (NumberFormatException e) {
-                System.err.println("\nERROR: The ID must be a number.\n");
+            if (input.equals("Cancel")) {
+                System.out.println("\nDONE: The operation has been canceled.\n");
+                //Exits the operation.
+                return;
+            }
+
+            ready = verifyVehicleID(input);
+
+            if (ready) {
+                carID = Integer.parseInt(input);
             }
         } while (!ready);
 
@@ -747,10 +765,11 @@ public class Menu {
             }
         } while (!ready);
 
-        world.createCar(carID,brandCar, doctorID, carpenterID);
-        // Operation counters are increased.
-        increaseOperations();
-        operationController.increaseNumOfCreations();
+        if (world.createCar(carID, brandCar, doctorID, carpenterID)) {
+            System.out.println("\nDONE: The car has been created.\n");
+            increaseOperations();
+            operationController.increaseNumOfCreations();
+        }
 
     }
 
@@ -845,6 +864,7 @@ public class Menu {
 
     public void requestLoan() {
         increaseOperations();
+        System.out.println("\nDONE: The loan has been created.\n");
     }
 
     public void printStatistics() {
@@ -861,6 +881,22 @@ public class Menu {
                 return true;
             } else {
                 System.err.println("\nERROR: There is already a person with this ID.\n");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            System.err.println("\nERROR: The ID must be a number.\n");
+            return false;
+        }
+    }
+
+    public boolean verifyVehicleID(String input) {
+        int ID;
+        try {
+            ID = Integer.parseInt(input);
+            if (!world.existsVehicle(ID)) {
+                return true;
+            } else {
+                System.err.println("\nERROR: There is already a vehicle with this ID.\n");
                 return false;
             }
         } catch (NumberFormatException e) {
@@ -890,6 +926,33 @@ public class Menu {
     public boolean isBlacksmithConditionMet() {
         try {
             return world.isBlacksmithConditionMet();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isBicycleConditionMet() {
+        try {
+            return world.isBicycleConditionMet();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isCarConditionMet() {
+        try {
+            return world.isCarConditionMet();
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isHouseConditionMet() {
+        try {
+            return world.isHouseConditionMet();
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return false;

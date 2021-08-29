@@ -41,7 +41,6 @@ public abstract class Vehicle {
         this.owner = owner;
     }
 
-
     public int getNumberOfTires() {
         return numberOfTires;
     }

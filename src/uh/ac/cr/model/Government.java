@@ -8,8 +8,25 @@ public class Government implements MoneyLender {
         this.income = 0;
     }
 
+    @Override
+    public void requestMoney() {
+
+    }
+
+    public void requestMoney(double money) {
+        loan = new Loan(money);
+    }
+
+    //The government does not lend money.
+    public void lendMoney() {
+    }
     public boolean depositTaxes(double taxes) {
         this.income = income + taxes;
+        return true;
+    }
+
+    public boolean depositMoney(double money) {
+        income = income + income;
         return true;
     }
 
@@ -19,23 +36,16 @@ public class Government implements MoneyLender {
         if (income - moneyToWithdraw >= 0) {
             this.income = income - moneyToWithdraw;
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-
-    @Override
-    public void requestMoney() {
-
-    }
-
-    @Override
-    public void lendMoney() {
-
-    }
-
     public double getIncome() {
         return income;
+    }
+
+    public boolean hasLoan() {
+        return loan != null;
     }
 }

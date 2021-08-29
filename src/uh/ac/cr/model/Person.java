@@ -23,6 +23,7 @@ public abstract class Person implements MoneyLender{
         this.cars = 0;
         this.houses = 0;
         this.loans = new ArrayList<>();
+        this.loansGiven = new ArrayList<>();
     }
     //requisitos interface
 

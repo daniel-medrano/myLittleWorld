@@ -30,14 +30,23 @@ public class OperationController {
         }
     }
 
+    public void checkLoansOperations() {
+        world.checkLoans();
+    }
+
+
+
+
+
 
     //2 means that the person will get sick, 1 means that the person will stay healthy.
-    public void checkNumOfOperations(ArrayList<Person> personArrayList, Woods woods) {
+    public void checkNumOfOperations(ArrayList<Person> personArrayList) {
 
         if (numOfOperations % 5 == 0) {
 
             boolean gotSick;
             boolean died;
+            ArrayList<Person> deadPeople = new ArrayList<>();
 
             for (Person person : personArrayList) {
                 gotSick = false;
@@ -52,26 +61,30 @@ public class OperationController {
                     continue;
                 }
                 //If the person dies for the first time, money will be taken awa
-                 died = person.die();
+                died = person.die();
                 if (died) {
                     world.withdrawToDoctors(3);
+                    deadPeople.add(person);
                     increaseNumOfDeadPeople();
                 } else {
                     decreaseNumOfSickPeople();
                 }
                 //If there are always at least 3 trees per person, the people will receive 5 dollars every 5 operations.
-                if (woods.areThereEnoughTreesPerPerson(personArrayList.size())) {
+                if (world.getWoods().areThereEnoughTreesPerPerson(personArrayList.size())) {
                     person.depositMoney(5);
                 }
                 //1 dollar will be given to the people every 5 operations, only if they involve the creation of something.
             }
+            deletePeople(deadPeople);
         }
-        if (numOfOperations >= 10 && numOfOperations % 10 == 0) {
-            woods.decreaseTrees(5);
+        if (numOfOperations % 10 == 0){
+            world.removeTrees(5);
+
         }
         if (numOfOperations % 15 == 0){
 
         }
+
     }
 
     public int getNumOfOperations() {
