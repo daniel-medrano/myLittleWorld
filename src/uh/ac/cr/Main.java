@@ -76,6 +76,9 @@ public class Main {
                     case "request loan":
                         menu.requestLoan();
                         break;
+                    case "pay loan":
+                        menu.payLoan();
+                        break;
                     case "print statistics":
                         menu.printStatistics();
                         break;
